@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="page-view-size" content="1280*720">
+        <link rel="stylesheet" type="text/css" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="js/HCcommon.js"></script>
+        <script type="text/javascript" src="js/api.js"></script>
+        <script type="text/javascript" src="js/area.js"></script>
+        <script type="text/javascript" src="js/page.js"></script>
+    </head>
+    <body>
+    </body>
+    <script type="text/javascript">
+        debugger;
+        HCEPG.Func.setCookie(area.name,'xx',-8)
+        
+        pageInit()
+        .then(function(){
+            try{
+                if(typeof STBAppManager!='undefined'){
+                    var version = STBAppManager.getAppVersion("com.chinaunicom.duer.apps.xtv");
+
+                    api.tvTools(area.userId,version);
+                }
+            }
+            catch(e){}
+
+            return api.getUidNewOrOld(area.userId,area.origin);
+        })
+        .then(function(){
+            return api.addUser(area.userId,area.UserToken)
+        })
+        .then(function(){
+            try{
+                api.addComplaint({
+                    uid:area.userId,
+                    page_type:8,
+                    is_vip:authInfo.result == 0? 1 : 2,
+                    visit_page:'进入产品',
+                    current_time:HCEPG.Func.timeFormat(),
+                    carrierId:area.carrierId,
+                })
+            }
+            catch(e){}
+
+            // 进入中转页清空历史栈
+            area.clearStack();
+
+
+            // 从epg进入专题
+            if(
+                area.origin
+                && area.origin.match(/zt(\d*)/)
+            ){
+                area.pushStack(area.projectUrl+'html/recommend.html');
+                window.location.href = area.projectUrl + 'special/'+area.origin.match(/zt(\d*)/)[0]+'/index.html'
+            }
+
+            // 从epg进入单视频，返回对应专辑，返回产品首页
+            else if(
+                area.origin
+                && area.origin.match(/video_(\d*)_album_(\d*)/)
+            ){
+                area.pushStack(area.projectUrl+'html/recommend.html');
+                var playUrl = null;
+                if(area.origin.match(/video_(\d*)_album_(\d*)/)[1] == '4171'){
+                    playUrl = 'rtsp://202.99.114.93/88888891/16/20200723/271306415/271306415.ts'
+                }
+                else if(area.origin.match(/video_(\d*)_album_(\d*)/)[1] == '4267'){
+                    playUrl = 'rtsp://202.99.114.93/88888891/16/20200723/271306598/271306598.ts'
+                }
+                else{
+                    playUrl = 'http://202.99.114.93/88888891/16/20200612/271245243/271245243.ts'
+                }
+                window.location.href = area.projectUrl+'html/video.html?video_url='+encodeURIComponent(playUrl)+'&video_ReturnURL='+encodeURIComponent(area.projectUrl+'html/details.html?album_id='+area.origin.match(/video_(\d*)_album_(\d*)/)[2]);
+
+            }
+            // 从epg进入专辑
+            else if(
+                area.origin
+                && area.origin.match(/album_(\d*)/)
+                && area.origin.match(/album_(\d*)/)[1]
+            ){
+                area.pushStack(area.projectUrl+'html/recommend.html');
+                window.location.href = area.projectUrl+'html/details.html?album_id='+area.origin.match(/album_(\d*)/)[1];
+            }
+            else{
+                window.location.href = area.projectUrl+'html/recommend.html';
+            }
+            
+        })
+        
+    </script>
+</html>

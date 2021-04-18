@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="../../js/HCcommon.js"></script>
+        <script type="text/javascript" src="../../js/area.js"></script>
+        <script type="text/javascript" src="../../js/page.js"></script>
+        <script type="text/javascript" src="../../js/api.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div class="ip1 ipBtn">
+                <img class="default" src="img/1.png" height="219" width="166" alt="" />
+                <img class="hover" src="img/1-2.png" height="219" width="166" alt="" />
+                <img class="hover hand" src="img/hand.png" height="100" width="63" alt="" />
+            </div>
+
+            <div class="ip2 ipBtn">
+                <img class="default" src="img/2.png" height="219" width="166" alt="" />
+                <img class="hover" src="img/2-2.png" height="219" width="166" alt="" />
+                <img class="hover hand" src="img/hand.png" height="100" width="63" alt="" />
+            </div>
+
+            <div class="ip3 ipBtn">
+                <img class="default" src="img/3.png" height="219" width="166" alt="" />
+                <img class="hover" src="img/3-2.png" height="219" width="166" alt="" />
+                <img class="hover hand" src="img/hand.png" height="100" width="63" alt="" />
+            </div>
+
+            <div class="ip4 ipBtn">
+                <img class="default" src="img/4.png" height="219" width="166" alt="" />
+                <img class="hover" src="img/4-2.png" height="219" width="166" alt="" />
+                <img class="hover hand" src="img/hand.png" height="100" width="63" alt="" />
+            </div>
+            
+            <div class="title"></div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'ipBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '0';
+
+        HCEPG.BM.init({
+            // 方向键注册
+            moveRules:{
+                ipBtn:{
+                    cols:'auto',
+                }
+            },      
+            // 按键回调（按键事件完成后触发）
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    var title = ''
+                    if(nextBtnIdx == 0){
+                        title = '五分钟学会盘发编发'
+                    }
+                    else if(nextBtnIdx == 1){
+                        title = '每个女人都能学会的魅力技巧'
+                    }
+                    else if(nextBtnIdx == 2){
+                        title = '跟王枕学法式美甲'
+                    }
+                    else if(nextBtnIdx == 3){
+                        title = '精致女性必备形象管理'
+                    }
+                    C('title')[0].innerText = title
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                }
+                if(key == '13'){
+                    var album_id;
+                    if(btnIdx == '0'){album_id = '124'}
+                    else if(btnIdx == '1'){album_id = '134'}
+                    else if(btnIdx == '2'){album_id = '53'}
+                    else if(btnIdx == '3'){album_id = '82'}
+
+                    jumpIntoStack(area.projectUrl+'html/details.html?album_id='+album_id)
+                }
+                if(key == 8){
+                    window.location.href = area.popStack();
+                }
+                
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                })
+            },
+        });
+        if(HCEPG.Func.getQueryString('btnIdx')){
+            var title = ''
+            if(HCEPG.Func.getQueryString('btnIdx') == 0){
+                title = '五分钟学会盘发编发'
+            }
+            else if(HCEPG.Func.getQueryString('btnIdx') == 1){
+                title = '每个女人都能学会的魅力技巧'
+            }
+            else if(HCEPG.Func.getQueryString('btnIdx') == 2){
+                title = '跟王枕学法式美甲'
+            }
+            else if(HCEPG.Func.getQueryString('btnIdx') == 3){
+                title = '精致女性必备形象管理'
+            }
+            C('title')[0].innerText = title
+            HCEPG.BM.changehover('ipBtn',HCEPG.Func.getQueryString('btnIdx'))
+            
+        }
+        else{
+            C('title')[0].innerText = '五分钟学会盘发编发'
+            HCEPG.BM.changehover('ipBtn',0)
+
+        }
+
+        
+        pageInit()
+        .then(
+            function(){
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:1,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'女人我最大',
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+                
+                HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+
+            }
+        )
+    </script>
+</html>

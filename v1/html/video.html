@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/video.css?v=1" />
+    </head>
+    
+    <body style="background:transparent">
+        <div id="container" style="background:none">
+            <!-- 视频标题 -->
+            <!-- <div class="videoTitle"></div> -->
+            <!-- 导航 -->
+            <div class="videoNav">
+               <div class="currentPlayTime">00:00:00</div> 
+               <div class="duration">00:00:00</div> 
+
+               <div class="progress">
+                   <div class="bar"></div>
+               </div>
+
+               <div class="rewind"></div>
+               <div class="playOrPause pla"></div>
+               <div class="forward"></div>
+            </div>
+            <!-- 选集(暂时用不上) -->
+            <div class="chooseViewBg">
+                <div class="chooseView" isview="yes">
+                    <div class="chooseBox" isbox="yes"></div>
+                </div>
+            </div>
+
+
+            <!-- 暂停界面 -->
+            <div class="pause" style="display: none;">
+                <div class="newVideoPauseBtn newVideoPauseBtn-0">退出播放</div>
+                <div class="newVideoPauseBtn newVideoPauseBtn-1">继续播放</div>
+            </div>
+
+            
+
+            <div class="newVideoPlayBtn hoverOn"></div>
+
+
+            <div class="volumeNav">
+                <div class="volumeTemp">
+                    <div class="volumeBar"></div>
+                </div>
+                <div class="volumeVal"></div>
+            </div>
+            
+            <!-- 免费观看提示 -->
+            <div class="tips freeTips" style="display:none;text-align: center;background-color: rgb(0, 0, 0);color: rgb(255, 255, 255);font-size: 24px;border-radius: 9px;padding: 10px 40px;z-index: 10000;width: 300px;position: absolute;left: 450px;top: 335.5px;">您可以免费观看前30秒</div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var store = {};
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| null;//热键类名
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| null;//热键索引
+        store.source_id = HCEPG.Func.getQueryString('source_id')|| '';//资源id
+        store.album_id = HCEPG.Func.getQueryString('album_id') || '1';//专辑id
+        store.isfree = HCEPG.Func.getQueryString('isfree') || '0';//当前视频是否免费
+        store.video_url = HCEPG.Func.getQueryString('video_url') || '';//视频链接
+
+        var userId = HCEPG.Func.getQueryString('UserID');
+        var carrierId = userId.split('_')[1] ? userId.split('_')[1] : '201';
+        var returnUrl = HCEPG.Func.getQueryString('video_ReturnURL') || document.referrer;
+        // 控制播放导航显隐的定时器
+        var limitTimer;
+        // 进入页面的时间点（用于计算页面停留时间）
+        var startTime = new Date().getTime();
+        // 心跳记录标识
+        var record_flag = '';
+        // 视频名称
+        var title = '';
+        // 视频code
+        var mediaCode = '';
+        // 停留时间
+        var stayTime = 0;
+        // 会员状态
+        var isVip = 0;
+
+        var fastFTimer;
+
+        var currentPlayTime = 0;
+        var mediaDuration = 0;
+        
+
+        var playerTimer;
+
+        function setPlayerTimer(){
+            playerTimer = setInterval(function(){
+                stayTime++;
+                // currentPlayTime = mp_getCurrentPlayTime();
+                currentPlayTime = currentPlayTime*1 +1
+
+                C('bar')[0].style.width = (currentPlayTime/mp_getMediaDuration())*100>100?'100%':(currentPlayTime/mp_getMediaDuration())*100+'%';
+
+                C('currentPlayTime')[0].innerText = HCEPG.Func.timestamp(currentPlayTime);
+
+                if(C('duration')[0].innerText != mp_getMediaDuration()){
+                    mediaDuration = mp_getMediaDuration();
+                    C('duration')[0].innerText = HCEPG.Func.timestamp(mediaDuration);
+                }
+
+                // 播放结束
+                if(currentPlayTime>2 &&currentPlayTime>mediaDuration-2 && currentPlayTime<mediaDuration+100){
+                    // mp_playByTime(0);
+                    clearInterval(playerTimer);
+                    C('newVideoPauseBtn-1')[0].innerText = '重新播放';
+                    // mp_destroy();
+                    // window.location.href = HCEPG.Func.getQueryString('ReturnURL')+'&fromVideo=yes';
+                    C('pause')[0].style.display = 'block';
+                    mp_pause();
+                    HCEPG.BM.changehover('newVideoPauseBtn','0'); 
+                    
+                }
+            }, 1000)
+        }
+
+        window.onunload = function(){
+            mp_destroy();
+        }
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                newVideoPauseBtn:{
+                    cols:'auto',
+                },
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){ 
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx);
+                }
+
+                // 视频播放页播放状态
+                if(btnCls == 'newVideoPlayBtn'){
+                    if(key == '13'){
+                        // 播放状态
+                        if(mp_status == '1'){
+                            clearInterval(playerTimer);
+                            mp_pause();
+                            HCEPG.CSS.removeClass(C('playOrPause')[0],'pla')
+                            HCEPG.CSS.addClass(C('playOrPause')[0],'pau')
+                            clearTimeout(limitTimer);
+                            C('videoNav')[0].style.display = 'block';
+                        }
+                        // 暂停状态
+                        else if(mp_status == '0'){
+                            mp_resume();
+                            setPlayerTimer();
+                            HCEPG.CSS.removeClass(C('playOrPause')[0],'pau')
+                            HCEPG.CSS.addClass(C('playOrPause')[0],'pla')
+                            C('videoNav')[0].style.display = 'block';
+                            limitTimer = setTimeout(function(){
+                                C('videoNav')[0].style.display = 'none';
+                            }, 2000)
+                        } 
+                    }
+                    // 快退
+                    else if(key == '37'){
+                        clearTimeout(fastFTimer)
+                        clearInterval(playerTimer)
+
+                        currentPlayTime -= 10;
+                        currentPlayTime = currentPlayTime <= 0 ? 0 : currentPlayTime;
+
+                        C('bar')[0].style.width = (currentPlayTime/mp_getMediaDuration())*100>100?'100%':(currentPlayTime/mp_getMediaDuration())*100+'%';
+                        C('currentPlayTime')[0].innerText = HCEPG.Func.timestamp(currentPlayTime);
+
+                        // mp_rewind(10);
+                        C('videoNav')[0].style.display = 'block';
+
+                        HCEPG.CSS.removeClass(C('playOrPause')[0],'pau')
+                        HCEPG.CSS.addClass(C('playOrPause')[0],'pla')
+                        HCEPG.CSS.addClass(C('rewind')[0],'sel')
+
+
+                        fastFTimer = setTimeout(function(){
+                            
+                            mp_playByTime(currentPlayTime)
+                            setPlayerTimer()
+                        }, 1000)
+
+                        setTimeout(function(){
+                            HCEPG.CSS.removeClass(C('rewind')[0],'sel')
+                        }, 200)
+
+                        clearTimeout(limitTimer)
+                        limitTimer = setTimeout(function(){
+                            C('videoNav')[0].style.display = 'none';
+                        }, 2000)
+                    }
+                    // 快进
+                    else if(key == '39'){
+                        clearTimeout(fastFTimer)
+                        clearInterval(playerTimer)
+
+                        currentPlayTime = currentPlayTime*1 + 10;
+                        currentPlayTime = currentPlayTime >= mediaDuration ? 0 : currentPlayTime;
+
+                        C('bar')[0].style.width = (currentPlayTime/mp_getMediaDuration())*100>100?'100%':(currentPlayTime/mp_getMediaDuration())*100+'%';
+                        C('currentPlayTime')[0].innerText = HCEPG.Func.timestamp(currentPlayTime);
+                        // mp_forward(10);
+                        C('videoNav')[0].style.display = 'block';
+
+                        HCEPG.CSS.removeClass(C('playOrPause')[0],'pau')
+                        HCEPG.CSS.addClass(C('playOrPause')[0],'pla')
+                        HCEPG.CSS.addClass(C('forward')[0],'sel')
+
+                        fastFTimer = setTimeout(function(){
+                            
+                            mp_playByTime(currentPlayTime)
+                            setPlayerTimer()
+                        }, 1000)
+
+                        setTimeout(function(){
+                            HCEPG.CSS.removeClass(C('forward')[0],'sel')
+                        }, 200)
+                        clearTimeout(limitTimer)
+                        limitTimer = setTimeout(function(){
+                            C('videoNav')[0].style.display = 'none';
+                        }, 2000)
+                    }
+
+                    else if(key == '8'){
+                        clearTimeout(C('freeTips')[0].timer) 
+                        C('freeTips')[0].style.display = 'none';
+                                
+                        C('pause')[0].style.display = 'block';
+                        mp_pause();
+                        HCEPG.BM.changehover('newVideoPauseBtn','0'); 
+                    }
+                }
+                // 视频播放页暂停状态
+                else if(btnCls == 'newVideoPauseBtn'){
+                    // 退出播放
+                    if(btnIdx == '0'){
+
+                        if(key == '13'){
+                            
+                            
+                            mp_destroy();
+                            window.location.href = returnUrl;
+                            
+                            
+                        }
+                    }
+                    // 继续播放
+                    else if(btnIdx == '1'){
+                        if(key == '13'){
+                            if(C('newVideoPauseBtn-1')[0].innerText == '重新播放'){
+                                mp_destroy();
+                                window.location.href = window.location.href;
+                            }
+                            else{
+                                mp_resume();
+                                HCEPG.BM.changehover('newVideoPlayBtn','0'); 
+                                C('pause')[0].style.display = 'none';
+                            }
+                            
+                        }
+                    }
+                }
+                // 公共逻辑
+                // 音量按钮
+                if(key == '259' || key == '260'){
+                    if(mp){
+                        if(key == '259'){mp_turnUpVolume(5);}
+                        if(key == '260'){mp_turnDownVolume(5);}
+
+                        C('volumeNav')[0].style.display = 'block';
+                        C('volumeNav')[0].C('volumeBar')[0].style.width = (mp_volume/100)*C('volumeNav')[0].C('volumeTemp')[0].offsetWidth+'px';
+                        C('volumeNav')[0].C('volumeVal')[0].innerText = mp_volume;
+                        
+                        clearTimeout(C('volumeNav')[0].timer)
+                        C('volumeNav')[0].timer = setTimeout(function(){
+                            C('volumeNav')[0].style.display = 'none';
+                        }, 1500)
+                    }
+                    
+                }
+                
+        
+                
+                MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+        
+
+
+        new MyPromise(function(resolve,reject){
+            // mp_destroy();
+            
+            C('currentPlayTime')[0].innerText = HCEPG.Func.timestamp(0);
+            C('bar')[0].style.width = '0px';
+
+            var playUrl = store.video_url;
+            var STBModel = HCEPG.STBUtil.getSTBModel();
+
+            if(STBModel){
+                if(
+                    STBModel.indexOf("E909")!=-1
+                    || STBModel.indexOf("E910")!=-1
+                    || STBModel.indexOf("IHO3000S")!=-1
+                    || STBModel.indexOf("IP") == 0 
+                    || -1!=navigator.appName.indexOf('Ranger') 
+                    || STBModel.indexOf("E900")!=-1
+                    || STBModel.indexOf("EC6108")!=-1
+                    || STBModel.indexOf("Q6")!=-1
+                    || STBModel.indexOf("B700")!=-1
+                    || STBModel.indexOf("B760H")!=-1
+                    // || HCEPG.STBUtil.getSTBModel().indexOf("B860AV2.1-A")!=-1
+                ){
+                    playUrl = playUrl.replace("http","rtsp");
+                }
+
+                mp_play(playUrl, 0, 0, 1280, 720,function(mpData){
+                    setPlayerTimer()
+                })
+            }
+            
+            resolve();
+        })
+        .then(function(){
+            try{
+                api.addComplaint({
+                    uid:area.userId,
+                    page_type:4,
+                    is_vip:authInfo.result == 0 ? 1 : 2,
+                    visit_page:'视频'+store.source_id,
+                    current_time:HCEPG.Func.timeFormat(),
+                    carrierId:area.carrierId,
+                })
+            }
+            catch(e){}
+
+            HCEPG.BM.changehover('newVideoPlayBtn','0'); 
+            HCEPG.BM.btnOpen();
+        })
+    </script>
+</html>

@@ -1,0 +1,181 @@
+/* 
+* @Author: Marte
+* @Date:   2019-08-05 18:12:22
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-04-06 09:49:15
+*/
+
+/*搜索区域*/
+.searchTemp{
+    position: absolute;
+    left: 75px;
+    top: 160px;
+}
+/*搜索提示*/
+.searchTemp .searchTip{
+    position: absolute;
+    left: 40px;
+    top: -20px;
+    width: 260px;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+/*搜索图标*/
+.searchTemp .searchIcon{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+/*搜索内容*/
+.searchTemp .searchCont{
+    position: absolute;
+    left: 40px;
+    top: -20px;
+    width: 260px;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+/*搜索下划线*/
+.searchTemp .searchBar{
+    position: absolute;
+    left: 0px;
+    top: 20px;
+    width: 300px;
+    color: #4F0D0E;
+}
+
+/*返回和清空区域*/
+.backAndClear{
+    position: absolute;
+    left: 60px;
+    top: 220px;
+}
+/*返回和清空公共样式*/
+.backAndClear .backAndClearBtn{
+    width: 147px;
+    height: 64px;
+    line-height: 64px;
+    font-size: 20px;
+    color: #F6F6F6;
+    position: absolute;
+    top:0px;
+    background: #9248ba;
+    border-radius: 4px;
+    border: 2px solid #e1aaff;
+    text-align: center;
+}
+/*悬浮样式*/
+.backAndClear .backAndClearBtn.hoverOn{
+    background: #FEC400;
+}
+
+/*回退按钮样式*/
+.backAndClear .back{
+    left:0px;
+}
+/*清空按钮样式*/
+.backAndClear .clear{
+    left:170px;
+}
+
+/*键盘区域*/
+.keyboard{
+    position: absolute;
+    left: 60px;
+    top: 320px;
+    width: 340px;
+}
+/*键盘按键样式*/
+.keyboard .keyboardBtn{
+    width: 43px;
+    height: 43px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    line-height: 48px;
+    font-size: 20px;
+    color: #F6F6F6;
+    text-align: center;
+    background: #9248ba;
+    border: 2px solid #e1aaff;
+    float: left;
+}
+.keyboard .keyboardBtn.hoverOn{
+    background: #FEC400;
+}
+
+/*主体*/
+.main{
+    position: absolute;
+    left: 460px;
+    top: 160px;
+}
+
+
+/*搜索结果*/
+.main .searchConTit{
+    font-size: 24px;
+    color: #4F0D0E;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main .sourceSearch{
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 800px;
+    height: 525px;
+    overflow: hidden;
+}
+.main .sourceSearch .sourceSearch_scroll{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn{
+    border: 4px solid transparent;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    float: left;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 230px;
+    height: 133px;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn.hoverOn{
+    border: 4px solid #f5f509;
+    border-radius: 15px;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn .sourceSearchBtnPic{
+    width: 230px;
+    height: 133px;
+    border-radius: 15px;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn .sourceSearchBtnTit{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background:url(../img/common/titleBg.png);
+    border-radius: 0 0 12px 12px;
+    color: #ffffff;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn .sourceSearchBtnTit .still{
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn .sourceSearchBtnTit .move{
+    width: 100%;
+    display: none;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn.hoverOn .sourceSearchBtnTit .still{
+    display: none;
+}
+.main .sourceSearch .sourceSearch_scroll .sourceSearchBtn.hoverOn .sourceSearchBtnTit .move{
+    display: block;
+}

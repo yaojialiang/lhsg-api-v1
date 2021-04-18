@@ -1,0 +1,237 @@
+/* 
+* @Author: Marte
+* @Date:   2019-05-23 14:53:47
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-04-06 09:49:02
+*/
+
+/*头部*/
+.header{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+/*头部图片*/
+.header .headerPic{
+    position: absolute;
+    left: 70px;
+    top: 34px;
+    width: 454px;
+    height: 250px;
+    border-radius: 6px;
+}
+.header .headerPicFrame{
+    position: absolute;
+    left: 64px;
+    top: 27px;
+}
+/*头部右侧信息*/
+.header .headerInfo{
+    position:absolute;
+    left:570px;
+    top:27px;
+    width: 700px;
+}
+/*头部标题*/
+.header .headerInfo .headerTit{
+    font-size: 43px;
+    font-family: zihun181hao-feichibiaotiti Regular, zihun181hao-feichibiaotiti Regular-Regular;
+    font-weight: 700;
+    color: #fffffa;
+    margin-bottom: 20px;
+}
+/*头部标签*/
+.header .headerInfo .headerTag{
+    margin-bottom: 40px;
+}
+.header .headerInfo .headerTag .headerTagSty{
+    color: #4e100d;
+}
+.header .headerInfo .headerTag .headerTagTit{
+    font-size: 23px;
+    font-family: zihun181hao-feichibiaotiti Regular, zihun181hao-feichibiaotiti Regular-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #fbfa00;
+}
+/*头部按钮组*/
+.header .headerInfo .headerButton{
+
+}
+.header .headerInfo .headerButton .headerInfoBtn{
+    width: 157px;
+    height: 58px;
+    margin: 3px 10px 4px 10px;
+    background: url(../img/common/non.png) no-repeat;
+    position: relative;
+    font-size: 25px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #71f2ff;
+    line-height: 58px;
+    float: left;
+    
+}
+.header .headerInfo .headerButton .headerInfoBtn.hoverOn{
+    width: 177px;
+    height: 65px;
+    margin: 0;
+    background: url(../img/common/sel.png) no-repeat;
+    font-size: 28px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #faed5f;
+    line-height: 65px;
+}
+
+
+/*页码区域*/
+.page{
+    position: absolute;
+    left: 64px;
+    top: 315px;
+    color: #fff;
+}
+.page .page_scroll{
+
+}
+.page .page_scroll .pageBtn{
+
+    margin-right: 10px;
+    float: left;
+    font-size: 20px;
+    width: 91px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    background-image: url(../img/details/pageBtn.png) ;
+    color: #4e100d;
+    font-weight: 500;
+    /*-webkit-text-stroke: 1px #111111;*/
+}
+.page .page_scroll .pageBtn{
+    width:106px;
+    height:40px;
+    border-color:transparent;
+    border-style: solid;
+    border-right-width: 8px;
+    border-left-width: 8px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    text-align: center;
+    
+    margin-right: 5px;
+    float: left;
+    line-height: 40px;
+    font-size: 16px;
+    color: #71f2ff;
+} 
+.page .page_scroll .pageBtn{
+    background:url(../img/details/xuanji_non.png)  no-repeat;
+} 
+.page .page_scroll .pageBtn.selectedOn{
+    background:url(../img/details/xuanji_sel.png)  no-repeat;
+} 
+.page .page_scroll .pageBtn.hoverOn{
+    font-size: 20px;
+    color: #faed5f;
+    width:122px;
+    height:46px;
+    line-height: 46px;
+    border:0px solid transparent;
+    background:url(../img/details/xuanji_hover.png)  no-repeat;
+} 
+
+
+/*视频列表*/
+.videoList{
+    position: absolute;
+    left: 50px;
+    top: 385px;
+}
+.videoList .videoList_scroll{
+
+}
+.videoList .videoList_scroll .videoListBtn{
+    width: 226px;
+    height: 130px;
+    float: left;
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    border: solid 4px transparent;
+    border-radius: 12px;
+}
+.videoList .videoList_scroll .videoListBtn.hoverOn{
+    z-index: 1;
+}
+.videoList .videoList_scroll .videoListBtn .pic{
+    width: 224px;
+    height: 129px;
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    border-radius: 6px;
+}
+.videoList .videoList_scroll .videoListBtn.hoverOn .pic{
+    width: 241px;
+    height: 148px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-radius: 6px;
+}
+.videoList .videoList_scroll .videoListBtn .tit{
+    position: absolute;
+    left: 6px;
+    top: 106px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background:url(../img/common/titleBg.png);
+    border-radius: 0 0 12px 12px;
+    color: #ffffff;
+    font-size: 18px;
+}
+.videoList .videoList_scroll .videoListBtn.hoverOn .tit{
+    left: 0px;
+    top: 118px;
+    width: 240px;
+}
+.videoList .videoList_scroll .videoListBtn .tit .still{
+    width: 100%;
+    text-align: center;
+}
+.videoList .videoList_scroll .videoListBtn .tit .hover{
+    width: 100%;
+}
+.videoList .videoList_scroll .videoListBtn .frame{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:237px;
+    height:143px;
+    background:url(../img/details/chicun7_non.png) no-repeat;
+}
+.videoList .videoList_scroll .videoListBtn.hoverOn .frame{
+    position: absolute;
+    left: -12px;
+    top: -12px;
+    width:265px;
+    height:171px;
+    background:url(../img/details/chicun7_sel.png) no-repeat;
+}
+.videoList .videoList_scroll .videoListBtn .icon{
+    width:66px;
+    height:66px;
+    background:url(../img/details/free.png);
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-radius: 12px 0 0 0;
+}

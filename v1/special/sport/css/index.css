@@ -1,0 +1,62 @@
+/* 
+* @Author: Marte
+* @Date:   2020-06-23 09:48:34
+* @Last Modified by:   Marte
+* @Last Modified time: 2020-06-23 17:32:46
+*/
+
+#container{
+    width:1280px;
+    height:720px;
+    position:absolute;
+    background: url(../img/bg.jpg);
+}
+
+.ipBtn{
+    position:absolute;
+}
+
+.ipBtn .default{
+    visibility:visible;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+.ipBtn .hover{
+    visibility:hidden;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+.ipBtn .hover.hand{
+    z-index:1;
+    left: -14px;
+    top: -17px;
+}
+
+.ipBtn.hoverOn .default{
+    visibility:hidden;
+}
+
+.ipBtn.hoverOn .hover{
+    visibility:visible;
+}
+
+.ipBtn.ip1{
+    left:173px;
+    top:247px;
+}
+.ipBtn.ip2{
+    left:389px;
+    top:170px;
+}
+.ipBtn.ip3{
+    left:389px;
+    top:430px;
+}
+.ipBtn.ip4{
+    left:608px;
+    top:370px;
+}
+

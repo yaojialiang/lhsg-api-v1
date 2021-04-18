@@ -1,0 +1,202 @@
+/* 
+* @Author: Marte
+* @Date:   2019-10-18 09:42:53
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-04-14 11:51:19
+*/
+
+.menuTagBg{
+    position: absolute;
+    left: 130px;
+    top: 155px;
+}
+
+/*左侧导航*/
+.menuTag{
+    position: absolute;
+    left: 82px;
+    top: 197px;
+}
+.menuTag .menuTag_scroll{
+    position:absolute;
+    left:0px;
+    top:0px;
+
+}
+.menuTag .menuTag_scroll .menuTagBtn{
+    width:157px;
+    height:58px;
+    margin:3px 10px 4px 10px;
+    background:url(../img/common/non.png) no-repeat;
+
+    position: relative;
+    font-size: 25px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #71f2ff;
+    line-height: 58px;
+    
+}
+.menuTag .menuTag_scroll .menuTagBtn.hoverOn{
+    width:177px;
+    height:65px;
+    margin:0;
+    background:url(../img/common/sel.png) no-repeat;
+    font-size: 28px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #faed5f;
+    line-height: 65px;
+
+
+}
+
+
+/*主体*/
+.recommendBit{
+    position: absolute;
+    left: 267px;
+    top: 158px;
+    width: 1000px;
+    height: 535px;
+    overflow: hidden;
+}
+/*主体滑动栏*/
+.recommendBit .recommendBit_scroll{
+    position: absolute;
+    left:0px;
+    top:0px;
+    width:1000px;
+    padding: 10px;
+}
+/*头部两个主体单元*/
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn{
+    position: relative;
+    left:0px;
+    top:0px;
+    width: 458px;
+    height: 265px;
+    border: 10px solid transparent;
+    float: left;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnPic{
+    border-radius: 6px;
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    width: 452px;
+    height: 260px;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn.hoverOn .recommendHeadBitBtnPic{
+    left: 0px;
+    top: 0px;
+    width: 466px;
+    height: 274px;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnTit{
+    position: absolute;
+    left: 7px;
+    top: 237px;
+    width: 452px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background: url(../img/common/titleBg.png);
+    border-radius: 0 0 6px 6px;
+    color: #ffffff;
+    font-size: 18px;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnTit .still{
+    width:100%;
+    text-align: center;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnTit .hover{
+    width:100%;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn.hoverOn .recommendHeadBitBtnTit{
+    left: 0px;
+    top: 244px;
+    width: 466px;
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnFrame{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 465px;
+    height: 273px;
+    background-image: url(../img/secondarypage/chicun4_non.png);
+}
+.recommendBit .recommendBit_scroll .recommendHeadBitBtn .recommendHeadBitBtnHoverFrame{
+    position:absolute;
+    left:-10px;
+    top:-10px;
+    width:485px;
+    height:293px;
+    background-image: url(../img/secondarypage/chicun4_sel.png);
+}
+
+
+/*剩余主体单元*/
+.recommendBit .recommendBit_scroll .recommendBitBtn{
+    width: 170px;
+    height: 253px;
+    position: relative;
+    border: 10px solid transparent;
+    border-radius: 10px;
+    float: left;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnPic{
+    width: 168px;
+    height: 239px;
+    border-radius: 6px;
+    position: absolute;
+    left: 7px;
+    top: 7px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn.hoverOn .recommendBitBtnPic{
+    width: 184px;
+    height: 255px;
+    left: 0px;
+    top: 0px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit{
+    position: absolute;
+    left: 6px;
+    top: 216px;
+    width: 170px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background: url(../img/common/titleBg.png);
+    border-radius: 0 0 6px 6px;
+    color: #ffffff;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn.hoverOn .recommendBitBtnTit{
+    left: 0px;
+    top: 225px;
+    width: 184px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit .still{
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit .hover{
+    width: 100%;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnFrame{
+    width:182px;
+    height:253px;
+    background-image:url(../img/secondarypage/chicun5_non.png);
+}
+
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnHoverFrame{
+    position:absolute;
+    left: -10px;
+    top: -10px;
+    width:202px;
+    height:273px;
+    background-image:url(../img/secondarypage/chicun5_sel.png);
+}

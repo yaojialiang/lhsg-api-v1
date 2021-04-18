@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/recommend.css" />
+    </head>
+    <body bgcolor="transparent">
+        <div id="container">
+
+            <!--#include virtual="headerNav.html" -->
+            <img class="arrow right" src="../img/recommend/right.gif" height="37" width="36" alt="" />
+            <img class="arrow left" src="../img/recommend/left.gif" height="37" width="36" alt="" />
+            <!-- 主体 -->
+            <div class="main">
+                
+                <!-- 主体滑动栏 -->
+                <div class="main_scroll" style="left: 0px;">
+                    <img class="shipinchuang" src="../img/recommend/shipinchuang.png" height="392" width="445" alt="" />
+
+                    
+                    <div class="mainBtn mainBtn-0">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun0_shipinchuang_sel.png" height="272" width="412" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun0_shipinchuang_non.png" height="252" width="392" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    
+
+                    <div class="mainBtn mainBtn-1">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun1_sel.png" height="392" width="248" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun1_non.png" height="372" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-2">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun2_sel.png" height="198" width="244" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun2_non.png" height="182" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-3">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun2_sel.png" height="198" width="244" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun2_non.png" height="182" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-4">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun1_sel.png" height="392" width="248" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun1_non.png" height="372" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-5">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun3_sel.png" height="392" width="464" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun3_non.png" height="372" width="444" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-6">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun1_sel.png" height="392" width="248" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun1_non.png" height="372" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-7">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun2_sel.png" height="198" width="244" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun2_non.png" height="182" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-8">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun2_sel.png" height="198" width="244" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun2_non.png" height="182" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+
+                    <div class="mainBtn mainBtn-9">
+                        <img class="mainBtnFrame hover" src="../img/recommend/chicun1_sel.png" height="392" width="248" alt="" />
+                        <img class="mainBtnFrame default" src="../img/recommend/chicun1_non.png" height="372" width="228" alt="" />
+                        <img class="mainBtnPic">
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 脚部 -->
+            <div class="footer">
+                <!-- 脚本滑动栏 -->
+                <div class="footer_scroll">
+
+                    <div class="footerBtn footerBtn-0">
+                    </div>
+
+                    <div class="footerBtn footerBtn-1">
+                    </div>
+
+                    <div class="footerBtn footerBtn-2">
+                    </div>
+
+                    <div class="footerBtn footerBtn-3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 天津退出挽留页 -->
+            <div class="tianjin_exitPage">
+                <img class="popup" src="../img/recommend/tianjin_exitPage.jpg" height="434" width="800" alt="" />
+                <div class="tianjin_exitPageBtn tianjin_exitPageBtn0"></div>
+                <div class="tianjin_exitPageBtn tianjin_exitPageBtn1"></div>
+                <div class="tianjin_exitPageBtn tianjin_exitPageBtn2"></div>
+            </div>
+        </div>
+    </body>
+    
+    <script type="text/javascript">
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'mainBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '0';
+        store.menu_id = 19;
+        store.tag_id = 0;
+
+        var retainBtnCls = null;
+        var retainBtnIdx = null;
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                headerBtn:{
+                    cols:'auto',
+                    borderDown:'~mainBtn|mainBtn-0',
+                    borderRight:'~navBtn|navBtn-0',
+                },
+                navBtn:{
+                    cols:'auto',
+                    borderLeft:function(){
+                        return '~headerBtn|headerBtn-'+(C('headerBtn').length-1)
+                    },
+                    borderDown:'~mainBtn|mainBtn-0',
+                },
+                mainBtn:{
+                    0:{right:'1',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},down:'~footerBtn|footerBtn-0'},
+                    1:{left:'0',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'2',down:'~footerBtn|footerBtn-0'},
+                    2:{left:'1',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'4',down:'3'},
+                    3:{left:'1',up:'2',right:'4',down:'~footerBtn|footerBtn-0'},
+                    4:{left:'2',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'5',down:'~footerBtn|footerBtn-0'},
+
+                    5:{left:'4',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'6',down:'~footerBtn|footerBtn-0'},
+                    6:{left:'5',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'7',down:'~footerBtn|footerBtn-0'},
+                    7:{left:'6',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},right:'9',down:'8'},
+                    8:{left:'6',up:'7',right:'9',down:'~footerBtn|footerBtn-0'},
+                    9:{left:'7',up:function(){return 'headerBtn-'+getHeaderBtnIdx()},down:'~footerBtn|footerBtn-0'},
+                },
+                footerBtn:{
+                    cols:'auto',
+                    borderUp:'~mainBtn|mainBtn-0',
+                },
+                tianjin_exitPageBtn:{
+                    cols:'auto',
+                },
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                    
+                    if(nextBtnCls == 'mainBtn'){
+                        if(nextBtnIdx<5){
+                            C('main_scroll')[0].style.left = '0px';
+                            HCEPG.UI.showOne('arrow',0);
+                        }
+                        else if(nextBtnIdx>4){
+                            C('main_scroll')[0].style.left = '-1200px';
+                            HCEPG.UI.showOne('arrow',1);
+                        }
+                    }
+                }
+
+                if(key == '13'){
+                    if(btnCls == 'mainBtn'){
+                        if(btnIdx == '0'){
+                            jumpIntoStack(area.projectUrl+'special/zt20210319/index.html')
+                        }
+                        else if(btnIdx == '2'){
+                            jumpIntoStack(area.projectUrl+'special/zt20210302/index.html')
+                        }
+                        else{
+                            defSureRules(btnDom,btnCls,btnIdx)
+                        }
+                    }
+                    else if(btnCls == 'footerBtn'){
+                        var url = null;
+                        if(btnIdx == '0'){
+                            url = area.projectUrl+'special/health/index.html';
+                        }
+                        else if(btnIdx == '1'){
+                            url = area.projectUrl+'special/sport/index.html';
+                        }
+                        else if(btnIdx == '2'){
+                            url = area.projectUrl+'special/food/index.html';
+                        }
+                        else if(btnIdx == '3'){
+                            url = area.projectUrl+'special/woman/index.html';
+                        }
+                        jumpIntoStack(url)
+                    }
+                    else if(btnCls == 'tianjin_exitPageBtn'){
+                        if(btnIdx == '0'){
+                            api.addComplaint({
+                                uid:area.userId,
+                                page_type:7,
+                                is_vip:authInfo.result == 0 ? 1 : 2,
+                                visit_page:'退出',
+                                current_time:HCEPG.Func.timeFormat(),
+                                carrierId:area.carrierId,
+                            })
+                            window.location.href = area.exitUrl;
+                            
+                        }
+                        else if(btnIdx == '1'){
+                            HCEPG.BM.changehover(retainBtnCls,retainBtnIdx);
+                            C('tianjin_exitPage')[0].style.display = 'none';
+                        }
+                        else if(btnIdx == '2'){
+                            api.addComplaint({
+                                uid:area.userId,
+                                page_type:7,
+                                is_vip:authInfo.result == 0 ? 1 : 2,
+                                visit_page:'退出',
+                                current_time:HCEPG.Func.timeFormat(),
+                                carrierId:area.carrierId,
+                            })
+
+                            // window.location.href = 'http://202.99.114.27:35811/epg_uc/views/login/login.html?carrierId=201&tag=event&UserID='+area.userId+'&ReturnUrl='+escape(area.exitUrl)+'&stbid=&platformFlag=hw'
+
+                            window.location.href = 'http://10.3.9.42:16874/mall/page/popup.html?&flag=sp&UserID='+area.userId+'&ReturnUrl='+escape(area.exitUrl)+'&stbid=&platformFlag=hw&code=HP2021040816581734160'
+                            
+                        }
+                    }
+                    else{
+                        defSureRules(btnDom,btnCls,btnIdx)
+                    }
+                }
+                
+                if(key == '8'){  
+                    if(btnCls == 'tianjin_exitPageBtn'){
+                        HCEPG.BM.changehover(retainBtnCls,retainBtnIdx);
+                        C('tianjin_exitPage')[0].style.display = 'none';
+                    }
+                    else{
+                        retainBtnCls = btnCls;
+                        retainBtnIdx = btnIdx;
+                        C('tianjin_exitPage')[0].style.display = 'block';
+                        HCEPG.BM.changehover('tianjin_exitPageBtn','0');
+                    }
+                    
+                    
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+
+        pageInit()
+        .then(function(){
+            try{
+                cO(area.carrierId,'lhsg');
+            }
+            catch(e){}
+            
+            return MyPromise.all([
+                api.getIndexPageData(area.userId,store.menu_id,store.tag_id)
+                .then(function(res){
+                    return new MyPromise(function(resolve,reject){
+
+                        headerRender(res.data.menus)
+                        // 主体位置单元格渲染
+                        res.data.contents.forEach(function(obj,idx){
+                            for(var attr in obj){
+                                C('mainBtn')[idx].setAttribute(attr,obj[attr]);
+                            }
+                            C('mainBtn')[idx].C('mainBtnPic')[0].src = obj.image;
+                        })
+                        
+                        resolve();
+                    })
+                }),
+            ])
+        })
+        .then(
+            function(){
+                headerBtnSel(store.menu_id)
+
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:1,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'推荐',
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+                
+                
+                // 遮罩关闭，绑定按钮
+                C('cover')[0].style.display = "none";
+                HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+
+                
+            }
+        )
+
+    </script>
+</html>

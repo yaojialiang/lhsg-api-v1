@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/details.css?v=8" />
+    </head>
+    <body>
+        <div id="container">
+            <!-- 头部 -->
+            <div class="header">
+                <img class="headerPicFrame" src="../img/details/chicun8_fengmian.png" height="263" width="466" alt="" />
+                <img class="headerPic" src="" alt="" />
+
+
+                <div class="headerInfo">
+                    <div class="headerTit"></div>
+                    <div class="headerTag"><span class='headerTagSty'></span><span class="headerTagTit"></span></div>
+                    <div class="headerButton">
+                        <div class="headerInfoBtn headerInfoBtn-0 play" unit-down='pageBtn-0' unit-right='1'>
+                            全屏播放
+                        </div>
+                        <div class="headerInfoBtn headerInfoBtn-1 collect" unit-down='pageBtn-0' unit-left='0'>
+                            加入收藏
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            
+            <!-- 页码区域 -->
+            <div class="page">
+                <div class="page_scroll">
+                    
+                </div>
+            </div>
+            
+            <!-- 视频列表 -->
+            <div class='videoList'>
+                <div class="videoList_scroll">
+                                    
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+                 
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'headerInfoBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '0';
+        // 当前专辑id
+        store.album_id = HCEPG.Func.getQueryString('album_id') || '';
+        // 页码
+        store.page = HCEPG.Func.getQueryString('page') || '1';
+        
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                headerInfoBtn:{
+                    cols:'auto',
+                    borderDown:'~pageBtn|pageBtn-0',
+                },
+                pageBtn:{
+                    cols:'auto',
+                    borderUp:'~headerInfoBtn|headerInfoBtn-0',
+                    borderDown:'~videoListBtn|videoListBtn-0',
+                },
+                videoListBtn:{
+                    cols:5,
+                    borderUp:function(){
+                        return 'pageBtn-'+(store.page-1);
+                    },
+                }
+
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                }
+
+                if(key == '13'){
+                    if(btnCls == 'headerInfoBtn'){
+                        // 加入收藏/取消收藏按钮
+                        if(btnIdx == '1'){
+                            promiseAll.push(
+                                api.addCollection(area.userId,store.album_id)
+                                .then(function(res){
+                                    if(res.data.collected==0){
+                                        HCEPG.UI.tips('取消收藏')
+                                        C('headerInfoBtn-1')[0].innerText = '加入收藏';
+                                    }
+                                    else{
+                                        HCEPG.UI.tips('收藏成功')
+                                        C('headerInfoBtn-1')[0].innerText = '取消收藏';
+                                    }
+                                })
+                            )
+                        }
+                        else{
+                            defSureRules(btnDom,btnCls,btnIdx)
+                        }
+                    }
+                    // 页码按钮组
+                    else if(btnCls == 'pageBtn'){
+                        turnPage(area.userId,store.album_id,'asc',btnIdx*1+1,10)
+                    }
+                    else{
+                        defSureRules(btnDom,btnCls,btnIdx)
+                    }
+                    
+                }
+                
+                if(key == '8'){  
+                    if(area.origin.indexOf('album')!=-1 && area.carrierId == '207'){
+                        window.location.href = area.exitUrl;
+                        return;
+                    }
+                    window.location.href = area.popStack();
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+    
+        // 翻页
+        function turnPage(userId,album_id,sort,page,limit){
+            store.album_id = album_id;
+            store.page = page;
+
+            return api.getAlbumDetails(userId,album_id,sort,page,limit)
+            .then(function(res){
+                return new MyPromise(function(resolve,reject){
+                    // 检查该合集是否已收藏
+                    if(res.data.info.collected == 1){
+                        C('headerInfoBtn-1')[0].innerText = '取消收藏';
+                        HCEPG.CSS.addClass(C('headerInfoBtn-1')[0],'selectedOn'); 
+                    }
+                    // 头部信息渲染
+                    C('headerPic')[0].src = res.data.info.image;
+                    C('headerTit')[0].innerText = res.data.info.name;
+                    C('headerTagTit')[0].innerText = res.data.info.introduction;
+                    
+                    // 给播放按钮增添属性
+                    for(var attr in res.data.sources.data[0]){
+                        C('headerInfoBtn-0')[0].setAttribute(attr,res.data.sources.data[0][attr])
+                    }
+                    C('headerInfoBtn-0')[0].setAttribute('album_id', album_id)
+                    if(page == '1'){
+                        C('headerInfoBtn-0')[0].setAttribute('is_free', '0')
+                    }
+                    else{
+                        C('headerInfoBtn-0')[0].setAttribute('is_free', '1')
+                    }
+
+                    // 页码生成(当页码不存在时生成)
+                    if(C("page_scroll")[0].children.length == 0){
+                        var pageArr = [];
+                        for(var i = 0; i<Math.ceil(res.data.sources.total/10);i++){
+                            var rightNum = (i+1)*10>res.data.sources.total?res.data.sources.total:(i+1)*10;
+                            var pageTemp = {content:(i*10+1)+'-' + rightNum,idx:i}
+                            pageArr.push(pageTemp); 
+                        }
+
+                        // 页码渲染
+                        pageArr.forEach(function(obj,idx){
+                            var Dom = document.createElement("div");
+                            for(var attr in obj){
+                                Dom.setAttribute(attr,obj[attr]);
+                            }
+
+                            Dom.className = 'pageBtn pageBtn-'+idx;
+
+                            Dom.innerHTML = obj.content;
+
+                            C("page_scroll")[0].appendChild(Dom)
+                        })
+                    }
+
+                    // 视频列表渲染
+                    C('videoList_scroll')[0].innerHTML = '';
+                    res.data.sources.data.forEach(function(obj,idx){
+                        var Dom = document.createElement("div");
+                        for(var attr in obj){
+                            Dom.setAttribute(attr,obj[attr]);
+                        }
+                        Dom.setAttribute('album_id', album_id);
+
+                        Dom.className = 'videoListBtn videoListBtn-'+idx;
+
+                        Dom.innerHTML = "<div class='frame'></div>"
+                        +"<img class='pic' src='"+obj.image+"'/>"
+                        +"<div class='tit'>"
+                            +"<div class='still default'>"+obj.name+"</div>"
+                            +"<marquee class='move hover'>"+obj.name+"</marquee>"
+                        +"</div>"
+                       
+                       if(
+                           page == 1 && idx ==0
+                           || page == 1 && idx ==1
+                       ){
+                           Dom.className += ' free';
+                           Dom.innerHTML += '<div class="icon"></div>';
+                           Dom.setAttribute('is_free','0');
+                       }
+
+                        C("videoList_scroll")[0].appendChild(Dom)
+                    })
+                    
+                    // 页码已选中类名添上
+                    for(var j = 0;j<C('pageBtn').length;j++){
+                        HCEPG.CSS.removeClass(C('pageBtn')[j],'selectedOn');
+                    }
+                    HCEPG.CSS.addClass(C('pageBtn')[page-1],'selectedOn')
+                    
+                    resolve();
+                })
+            })
+        }
+
+        pageInit()
+        .then(function(){
+            return turnPage(area.userId,store.album_id,'asc',store.page,10);
+        })
+        .then(function(){
+            // 默认焦点
+
+            if(authInfo.result == 0){
+                HCEPG.CSS.addClass(C('headerInfoBtn-0')[0],'order');
+            }
+
+            try{
+                api.addComplaint({
+                    uid:area.userId,
+                    page_type:2,
+                    is_vip:authInfo.result == 0 ? 1 : 2,
+                    visit_page:'专辑'+store.album_id,
+                    current_time:HCEPG.Func.timeFormat(),
+                    carrierId:area.carrierId,
+                })
+            }
+            catch(e){}
+
+
+            HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+            
+        })
+    </script>
+</html>

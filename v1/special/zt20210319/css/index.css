@@ -1,0 +1,88 @@
+/* 
+* @Author: Marte
+* @Date:   2021-01-08 14:52:20
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-03-19 14:57:39
+*/
+.default{
+    position:absolute;
+    left:0px;
+    top:0px;
+    display:block;
+}
+
+.hover{
+    position:absolute;
+    left:0px;
+    top:0px;
+    display:none;
+}
+
+.hoverOn .default{
+    display:none;
+}
+
+.hoverOn .hover{
+    display:block;
+}
+
+#container{
+    width:1280px;
+    height:720px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    overflow: hidden;
+    background: url(../img/bg.jpg) no-repeat;
+}
+
+.hotBtn{
+    position:absolute;
+}
+
+.hotBtn.hotBtn-0{
+    left: 106px;
+    top: 26px;
+}
+.hotBtn.hotBtn-1{
+    left: 49px;
+    top: 149px;
+}
+.hotBtn.hotBtn-2{
+    left: 21px;
+    top: 289px;
+}
+.hotBtn.hotBtn-3{
+    left: 49px;
+    top: 436px;
+}
+.hotBtn.hotBtn-4{
+    left: 103px;
+    top: 562px;
+}
+
+.moreBtn{
+    position:absolute;
+    left:819px;
+    top:450px;
+}
+
+.hg{
+    position:absolute;
+    left: 300px;
+    top: 18px;
+    display:none;
+}
+
+
+.wenzi{
+    position:absolute;
+    left:819px;
+    top:450px;
+}
+
+.guang{
+    position:absolute;
+    left:370px;
+    top:266px;
+}

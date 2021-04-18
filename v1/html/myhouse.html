@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/myhouse.css" />
+    </head>
+    <body>
+        <div id="container">
+            <!--#include virtual="headerNav.html" -->
+            
+            <img class="menuTagBg" src="../img/common/left_star.png" height="34" width="83" alt="" />
+
+            <div class="deleteAndClearBtn"></div>
+
+            <!-- 左侧导航 -->
+            <div class="menuTag">
+                <div class="menuTag_scroll">                
+                    <div class="menuTagBtn menuTagBtn-0" tag_id="collect" name="收藏记录" image="" idx="0" unit-down="1" row="1" col="1">
+                        <div class="menuTagBtnTit">收藏记录</div>
+                    </div>
+                    <div class="menuTagBtn menuTagBtn-1" tag_id="history" name="观看历史" image="" idx="1" unit-up="0" unit-down="2" row="2" col="1">
+                        <div class="menuTagBtnTit">观看历史</div>
+                    </div>
+                    <div class="menuTagBtn menuTagBtn-2" tag_id="introduction" name="产品介绍" image="" idx="2" unit-up="1" row="3" col="1">
+                        <div class="menuTagBtnTit">产品介绍</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 推荐区域 -->
+            <div class="recommendBit">
+                <div class="recommendBit_scroll">
+                    
+                </div>
+            </div>
+
+            <img class="description" src="../img/myhouse/cpjs.png" height="534" width="931" alt="" />
+            
+        </div>
+    </body>
+    <script type="text/javascript">
+        
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| null;
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| null;
+        // 当前栏目id
+        store.menu_id = HCEPG.Func.getQueryString('menu_id') || 18;
+        // 当前标签id
+        store.tag_id = HCEPG.Func.getQueryString('tag_id') || 'collect';
+        
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                headerBtn:{
+                    cols:'auto',
+                    borderDown:'~recommendBitBtn|recommendBitBtn-0|menuTagBtn-0',
+                    borderRight:'~navBtn|navBtn-0',
+                },
+                navBtn:{
+                    cols:'auto',
+                    borderLeft:function(){
+                        return '~headerBtn|headerBtn-'+(C('headerBtn').length-1)
+                    },
+                    borderDown:'~recommendBitBtn|recommendBitBtn-0',
+                },
+                menuTagBtn:{
+                    cols:'1',
+                    borderUp:function(){
+                        return 'headerBtn-'+getHeaderBtnIdx();
+                    }, 
+                    borderRight:'recommendBitBtn-0'
+                },
+                deleteAndClearBtn:{
+                    up:function(){
+                        return 'headerBtn-'+getHeaderBtnIdx();
+                    },
+                    down:function(){
+                        if(C('recommendBit_scroll')[0].children.length>0){
+                            return 'recommendBitBtn-0';
+                        }
+                    },
+                    left:function(){
+                        return 'menuTagBtn-'+getMenuTagBtnIdx()
+                    },
+                },
+                recommendBitBtn:{
+                    cols:3,
+                    borderUp: 'deleteAndClearBtn-0',
+                    borderLeft:function(){
+                        return 'menuTagBtn-'+getMenuTagBtnIdx()
+                    },
+                }
+
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                    
+                    if(nextBtnCls == 'recommendHeadBitBtn' || nextBtnCls == 'recommendBitBtn'){
+                        HCEPG.UI.scroll(C('recommendBit')[0],C('recommendBit_scroll')[0],C(nextBtnCls)[nextBtnIdx],'y')
+                    }
+                }
+
+                if(key == '13'){
+
+
+                    // 左侧tab标签
+                    if(btnCls == 'menuTagBtn' && store.tag_id != btnDom.getAttribute("tag_id")){
+                        C('recommendBit_scroll')[0].innerHTML = '';
+                        C('recommendBit_scroll')[0].style.top = '0px';
+
+                        promiseAll.push(
+                            changeTag(btnDom.getAttribute("tag_id"))
+                        )
+                        
+                    }
+                    else if(btnCls == 'recommendBitBtn'){
+                        if(store.tag_id == 'collect'){    
+
+                            jumpIntoStack(area.projectUrl + 'html/details.html?album_id='+btnDom.getAttribute('album_id'))
+                            
+                        }
+                        else if(store.tag_id == 'history'){
+
+                            // 会员直接观看
+                            if(
+                                authInfo && authInfo.result==0
+                            ){
+                                if(btnDom.getAttribute('album_id') && btnDom.getAttribute('source_id')){
+                                    api.addWatchRecord(area.userId,btnDom.getAttribute('album_id'),btnDom.getAttribute('source_id'),0,'')
+                                }
+                                window.location.href = area.projectUrl + 'html/video.html?video_url='+encodeURIComponent(btnDom.getAttribute('url'))+"&video_ReturnURL="+encodeURIComponent(window.location.href.split('?')[0]+'?'+HCEPG.Func.formatParams(store));
+                            }
+                            // 非会员拉起订购
+                            else{
+                                order(productInfo.contentId,productInfo.serviceId,productInfo.productId,productInfo.UserToken,encodeURIComponent(window.location.href.split('?')[0]+'?'+HCEPG.Func.formatParams(store)))
+                            }
+
+                            
+                            
+                        }
+                    }
+                    else if(btnCls == 'deleteAndClearBtn'){
+                        if(store.tag_id == 'collect'){    
+
+                            promiseAll.push(
+                                api.delCollectionAll(area.userId)
+                                .then(function(){
+                                    return new MyPromise(function(resolve,reject){
+                                        C('recommendBit_scroll')[0].innerHTML = '';
+                                        resolve();
+                                    })
+                                })
+                            )
+                            
+                        }
+                        else if(store.tag_id == 'history'){
+
+                            promiseAll.push(
+                                api.delWatchHistory(area.userId)
+                                .then(function(){
+                                    return new MyPromise(function(resolve,reject){
+                                        C('recommendBit_scroll')[0].innerHTML = '';
+                                        resolve();
+                                    })
+                                })
+                            )
+                            
+                        }
+                    }
+                    else{
+                        defSureRules(btnDom,btnCls,btnIdx)
+                    }
+                    
+                }
+                
+                if(key == '8'){  
+                    if(btnCls == 'menuTagBtn'){
+                        HCEPG.BM.changehover('headerBtn',getHeaderBtnIdx())
+                    }
+                    else if(btnCls == 'recommendBitBtn'){
+                        HCEPG.BM.changehover('menuTagBtn',getMenuTagBtnIdx())
+                    }
+                    else{
+                        window.location.href = area.projectUrl + 'html/recommend.html';
+                    }
+                    
+                    
+                }  
+
+                if(key == '48'){
+                    window.location.href = area.projectUrl + 'html/test.html';
+                }
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+        
+
+        // 切换标签
+        function changeTag(tag_id){
+            store.tag_id = tag_id;
+            C('description')[0].style.display = 'none';
+            C('deleteAndClearBtn')[0].style.display = 'block';
+            if(store.tag_id == 'collect'){
+                return api.getCollection(area.userId,1,10)
+                .then(function(res){
+
+                    return new MyPromise(function(resolve,reject){
+                        HCEPG.CSS.removeClass(C('deleteAndClearBtn')[0],'clear');
+                        HCEPG.CSS.addClass(C('deleteAndClearBtn')[0],'delete');
+                        
+                        res.data.data.forEach(function(obj,idx){
+                            var Dom = document.createElement('div');
+                            for(var attr in obj){Dom.setAttribute(attr, obj[attr])}
+
+                            Dom.className = 'recommendBitBtn recommendBitBtn-'+idx;
+
+                            Dom.innerHTML = 
+                            "<div class='recommendBitBtnFrame default'></div>" 
+                            +"<img class='recommendBitBtnPic' src="+obj.image+" alt=''>"
+                            +"<div class='recommendBitBtnTit'>"
+                                +"<div class='still default'>"+obj.name+"</div>"
+                                +"<marquee class='move hover'>"+obj.name+"</marquee>"
+                            +"</div>"
+                            +"<div class='recommendBitBtnHoverFrame hover'></div>" 
+                            C("recommendBit_scroll")[0].appendChild(Dom)
+                        })
+                        resolve();
+                    })
+                    
+                })
+            }
+            else if(store.tag_id == 'history'){
+                return api.getWatchHistroy(area.userId,1,10)
+                .then(function(res){
+                    return new MyPromise(function(resolve,reject){
+                        HCEPG.CSS.removeClass(C('deleteAndClearBtn')[0],'delete');
+                        HCEPG.CSS.addClass(C('deleteAndClearBtn')[0],'clear');
+
+                        
+                        
+                        res.data.data.forEach(function(obj,idx){
+                            var Dom = document.createElement('div');
+                            for(var attr in obj){Dom.setAttribute(attr, obj[attr])}
+
+                            Dom.className = 'recommendBitBtn recommendBitBtn-'+idx;
+                        
+                            Dom.innerHTML = 
+                            "<div class='recommendBitBtnFrame default'></div>" 
+                            +"<img class='recommendBitBtnPic' src="+obj.image+" alt=''>"
+                            +"<div class='recommendBitBtnTit'>"
+                                +"<div class='still default'>"+obj.name+"</div>"
+                                +"<marquee class='move hover'>"+obj.name+"</marquee>"
+                            +"</div>"
+                            +"<div class='recommendBitBtnHoverFrame hover'></div>" 
+                            C("recommendBit_scroll")[0].appendChild(Dom)
+                        })
+                        resolve();
+                    })
+
+                    
+                })
+            }
+            else if(store.tag_id == 'introduction'){
+                C('deleteAndClearBtn')[0].style.display = 'none';
+                C('description')[0].style.display = 'block';
+                return new MyPromise(function(resolve,reject){resolve()})
+            }
+        }
+
+        pageInit()
+        .then(function(){
+            return MyPromise.all([
+                api.getIndexPageData(area.userId,store.menu_id,store.tag_id)
+                .then(function(res){
+                    return new MyPromise(function(resolve,reject){
+                        headerRender(res.data.menus);
+                        resolve();
+                    })
+                }),
+                changeTag(store.tag_id)
+            ])
+            
+        })
+        .then(
+            function(){
+                headerBtnSel(store.menu_id)
+
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:1,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'我的',
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+                
+                // 遮罩关闭，绑定按钮
+                C('cover')[0].style.display = "none";
+
+                if(store.btnCls && store.btnIdx && C(store.btnCls)[store.btnIdx*1]){
+                    HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+                }
+                else{
+                    HCEPG.BM.callbackRules('','','','','','headerBtn',getHeaderBtnIdx())
+                }
+            }
+        )
+    </script>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/search.css" />
+    </head>
+    <body>
+        <div id="container">
+            <!--#include virtual="headerNav.html" -->
+
+
+            <!-- 搜索栏 -->
+            <div class="searchTemp">
+                <!-- 搜索提示 -->
+                <p class="searchTip">请输入您要查找的内容</p>
+                <!-- 搜索图标 -->
+                <img class="searchIcon" src="../img/search/current/searchIcon.png" height="21" width="21" alt="" />
+                <!-- 搜索内容 -->
+                <p class="searchCont"></p>
+                <!-- 搜索下划线 -->
+                <hr class="searchBar"/>
+            </div>
+            <!-- 退格和清空按钮区域 -->
+            <div class="backAndClear">
+                <div class="backAndClearBtn backAndClearBtn-0 back">退格</div>
+                <div class="backAndClearBtn backAndClearBtn-1 clear">清空</div>
+            </div>
+            <!-- 键盘区域 -->
+            <div class="keyboard">
+                <div class="keyboardBtn">A</div>
+                <div class="keyboardBtn">B</div>
+                <div class="keyboardBtn">C</div>
+                <div class="keyboardBtn">D</div>
+                <div class="keyboardBtn">E</div>
+                <div class="keyboardBtn">F</div>
+                <div class="keyboardBtn">G</div>
+                <div class="keyboardBtn">H</div>
+                <div class="keyboardBtn">I</div>
+                <div class="keyboardBtn">J</div>
+                <div class="keyboardBtn">K</div>
+                <div class="keyboardBtn">L</div>
+                <div class="keyboardBtn">M</div>
+                <div class="keyboardBtn">N</div>
+                <div class="keyboardBtn">O</div>
+                <div class="keyboardBtn">P</div>
+                <div class="keyboardBtn">Q</div>
+                <div class="keyboardBtn">R</div>
+                <div class="keyboardBtn">S</div>
+                <div class="keyboardBtn">T</div>
+                <div class="keyboardBtn">U</div>
+                <div class="keyboardBtn">V</div>
+                <div class="keyboardBtn">W</div>
+                <div class="keyboardBtn">X</div>
+                <div class="keyboardBtn">Y</div>
+                <div class="keyboardBtn">Z</div>
+                <div class="keyboardBtn">0</div>
+                <div class="keyboardBtn">1</div>
+                <div class="keyboardBtn">2</div>
+                <div class="keyboardBtn">3</div>
+                <div class="keyboardBtn">4</div>
+                <div class="keyboardBtn">5</div>
+                <div class="keyboardBtn">6</div>
+                <div class="keyboardBtn">7</div>
+                <div class="keyboardBtn">8</div>
+                <div class="keyboardBtn">9</div>
+            </div>
+            
+            <!-- 搜索结果 -->
+            <div class="main">
+                
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        
+
+        // var tvBtnBind = new Btn({
+        //     keyBackFn:'onBackEvent',
+        //     moveRules:{
+        //         headerBtn:{
+        //             borderDown:'backAndClearBtn-0',
+        //         },
+        //         navBtn:{
+        //             borderDown:'backAndClearBtn-0',
+        //         },
+        //         // 退格和清空按钮区域
+        //         backAndClearBtn:{
+        //             cols:2,
+        //             borderUp:'navBtn-1',
+        //             borderRight:function(){
+        //                 return '~sourceSearchBtn|sourceSearchBtn-0';
+        //             },
+        //             borderDown:function(){
+        //                 if(tvBtnBind.btnIdx == 0){
+        //                     return 'keyboardBtn-0';
+        //                 }
+        //                 else if(tvBtnBind.btnIdx == 1){
+        //                     return 'keyboardBtn-3';
+        //                 }
+        //             }
+        //         },
+        //         // 键盘区域
+        //         keyboardBtn:{
+        //             cols:6,
+        //             borderUp:function(){
+        //                 if(tvBtnBind.btnIdx < 3){
+        //                     return 'backAndClearBtn-0';
+        //                 }
+        //                 else if(tvBtnBind.btnIdx > 2 && tvBtnBind.btnIdx < 6){
+        //                     return 'backAndClearBtn-1';
+        //                 }
+        //             },
+        //             borderRight:function(){
+        //                 return '~sourceSearchBtn|sourceSearchBtn-0';
+        //             },
+        //         },
+        //         // 搜索结果按钮
+        //         sourceSearchBtn:{
+        //             cols:3,
+        //             borderUp:'navBtn-1',
+        //             borderLeft:'backAndClearBtn-1',
+        //         },
+        //     },
+        //     otherRules:function(key,btnDom,btnCls,btnIdx){
+        //         if(key == 13){
+        //             // 键盘区域
+        //             if(btnCls == 'keyboardBtn' && searchCon.length<15){
+        //                 searchCon += btnDom.innerText;
+        //                 search(searchCon)
+        //             }
+        //             // 头部导航 
+        //             else if(btnCls == 'headerBtn'){
+        //                 if(btnDom.getAttribute("menu_id") == '19'){
+        //                     window.location.href = lhsg.projectUrl + 'html/recommend.html'
+        //                 }
+        //                 else if(
+        //                     (btnDom.getAttribute("menu_id") == '20'
+        //                     || btnDom.getAttribute("menu_id") == '21'
+        //                     || btnDom.getAttribute("menu_id") == '22'
+        //                     || btnDom.getAttribute("menu_id") == '23')
+
+        //                     && btnDom.getAttribute("menu_id") != menu_id
+        //                 ){
+        //                     window.location.href = lhsg.projectUrl + 'html/secondarypage.html?menu_id='+btnDom.getAttribute("menu_id")+'&tag_id=0'
+        //                 }
+        //                 else if(btnDom.getAttribute("menu_id") == '18' && btnDom.getAttribute("menu_id") != menu_id){
+        //                     window.location.href = lhsg.projectUrl + 'html/myhouse.html?menu_id='+btnDom.getAttribute("menu_id")+'&tag_id=collect'
+        //                 }
+        //             } 
+        //             // 功能按钮
+        //             else if(btnCls == 'navBtn'){
+        //                 if(btnIdx == '0'){
+        //                     reuse.goPay()
+        //                 }
+        //                 else if(btnIdx == '1'){
+        //                     window.location.href = lhsg.projectUrl + 'html/search.html';
+        //                 }
+        //             }
+        //             // 回退和清空按钮
+        //             else if(btnCls == 'backAndClearBtn'){
+        //                 if(btnIdx == '0'){
+        //                     searchCon = searchCon.slice(0,-1);
+        //                 }
+        //                 else if(btnIdx == '1'){
+        //                     searchCon = '';
+        //                 }
+        //                 search(searchCon)
+        //             }
+        //             // 搜索结果按钮
+        //             else if(btnCls == 'sourceSearchBtn'){
+        //                 if(btnDom.getAttribute('source_id') && btnDom.getAttribute('source_id')>-1){
+        //                     reuse.fullPlay(lhsg.userId,btnDom.getAttribute('source_id'),comm.hasClass(btnDom,'free'))
+        //                 }
+        //                 else if(btnDom.getAttribute('album_id')&&btnDom.getAttribute('album_id')>-1){
+        //                     window.location.href = lhsg.projectUrl+'html/details.html?album_id='+btnDom.getAttribute('album_id')+'&historyUrl='+encodeURIComponent(lhsg.projectUrl+'html/search.html?menu_id='+menu_id+'&tag_id='+tag_id+'&btnCls='+btnCls+'&btnIdx='+btnIdx+'&searchCon='+searchCon);
+        //                 }
+        //             }
+        //         }
+        //         else if(key == 8){window.location.href = lhsg.projectUrl + 'html/recommend.html';}
+        //     },
+        //     callbackRules:function(key){
+        //         if(tvBtnBind.nextBtnCls == 'sourceSearchBtn'){
+        //             tvBtnBind.y_scroll(document.getElementsByClassName('sourceSearch')[0],document.getElementsByClassName('sourceSearch_scroll')[0],tvBtnBind.nextBtnDom);
+        //         }
+        //     },
+        // })
+        // // 搜索内容
+        // var searchCon = comm.getQueryString('searchCon') || '';
+        // // 当前栏目id
+        // var menu_id = comm.getQueryString('menu_id') || '';
+        // // 当前标签id
+        // var tag_id = comm.getQueryString('tag_id') || '0';
+
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'navBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '1';
+        // 当前栏目id
+        store.searchCon = HCEPG.Func.getQueryString('searchCon') || '';
+        store.menu_id = 19;
+        store.tag_id = 0;
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                headerBtn:{
+                    cols:'auto',
+                    borderDown:'backAndClearBtn-0',
+                    borderRight:'~navBtn|navBtn-0',
+                },
+                navBtn:{
+                    cols:'auto',
+                    borderLeft:function(){
+                        return '~headerBtn|headerBtn-'+(C('headerBtn').length-1)
+                    },
+                    borderDown:'backAndClearBtn-0',
+                },
+                
+                // 退格和清空按钮区域
+                backAndClearBtn:{
+                    cols:2,
+                    borderUp:'navBtn-1',
+                    borderRight:function(){
+                        return '~sourceSearchBtn|sourceSearchBtn-0';
+                    },
+                    borderDown:function(key,btnDom,btnCls,btnIdx){
+                        if(btnIdx == 0){
+                            return 'keyboardBtn-0';
+                        }
+                        else if(btnIdx == 1){
+                            return 'keyboardBtn-3';
+                        }
+                    }
+                },
+                // 键盘区域
+                keyboardBtn:{
+                    cols:6,
+                    borderUp:function(key,btnDom,btnCls,btnIdx){
+                        if(btnIdx < 3){
+                            return 'backAndClearBtn-0';
+                        }
+                        else if(btnIdx > 2 && btnIdx < 6){
+                            return 'backAndClearBtn-1';
+                        }
+                    },
+                    borderRight:function(){
+                        return '~sourceSearchBtn|sourceSearchBtn-0';
+                    },
+                },
+                // 搜索结果按钮
+                sourceSearchBtn:{
+                    cols:3,
+                    borderUp:'navBtn-1',
+                    borderLeft:'backAndClearBtn-1',
+                },
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                    
+                    if(nextBtnCls == 'sourceSearchBtn'){
+                        HCEPG.UI.scroll(C('sourceSearch')[0],C('sourceSearch_scroll')[0],C(nextBtnCls)[nextBtnIdx],'y')
+                    }
+                }
+
+                if(key == '13'){
+
+
+                    // 键盘区域
+                    if(btnCls == 'keyboardBtn' && store.searchCon.length<15){
+                        store.searchCon += btnDom.innerText;
+                        search(store.searchCon)
+                    }
+                    // 回退和清空按钮
+                    else if(btnCls == 'backAndClearBtn'){
+                        if(btnIdx == '0'){
+                            store.searchCon  = store.searchCon.slice(0,-1);
+                        }
+                        else if(btnIdx == '1'){
+                            store.searchCon  = '';
+                        }
+                        search(store.searchCon)
+                    }
+                    // 搜索结果按钮
+                    else if(btnCls == 'sourceSearchBtn'){
+                        jumpIntoStack(area.projectUrl + 'html/details.html?album_id='+btnDom.getAttribute('album_id'))
+                    }
+                    else{
+                        defSureRules(btnDom,btnCls,btnIdx)
+                    }
+                    
+                }
+                
+                if(key == '8'){  
+                    if(btnCls == 'menuTagBtn'){
+                        HCEPG.BM.changehover('headerBtn',getHeaderBtnIdx())
+                    }
+                    else if(btnCls == 'recommendBitBtn'){
+                        HCEPG.BM.changehover('menuTagBtn',getMenuTagBtnIdx())
+                    }
+                    else{
+                        window.location.href = area.projectUrl + 'html/recommend.html';
+                    }
+                    
+                    
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+
+        // 搜索结果
+        function search(searchCon){
+            store.searchCon = searchCon;
+            C('main')[0].innerHTML = '';
+            C('searchCont')[0].innerText = searchCon;
+
+            if(searchCon){
+                C('searchTip')[0].style.display = 'none';
+            }
+            else{
+                C('searchTip')[0].style.display = 'block';
+            }
+
+            // 搜索结果容器
+            var sourceSearchTemp = document.createElement('div');
+            sourceSearchTemp.className = 'sourceSearch';
+            // 搜索结果滑动栏
+            var sourceSearch_scrollTemp = document.createElement('div');
+            sourceSearch_scrollTemp.className = 'sourceSearch_scroll';
+            sourceSearchTemp.appendChild(sourceSearch_scrollTemp);
+
+            C('main')[0].appendChild(sourceSearchTemp); 
+
+            // return new MyPromise(function(resolve,reject){resolve()})
+            return api.search(area.userId,searchCon,1,10)
+            .then(function(res){
+                return new MyPromise(function(resolve,reject){
+                    // 搜索内容渲染
+
+                    res.data.data.forEach(function(obj,idx){
+                        var Dom = document.createElement('div');
+                        for(var attr in obj){Dom.setAttribute(attr, obj[attr])}
+
+                        Dom.className = 'sourceSearchBtn sourceSearchBtn-'+idx;
+                    
+                        Dom.innerHTML = 
+                        "<img class='sourceSearchBtnPic' src='"+obj.image+"'/>"
+                        +"<div class='sourceSearchBtnTit'>"
+                            +"<div class='still'>"+obj.name+"</div>"
+                            +"<marquee class='move'>"+obj.name+"</marquee>"
+                        +"</div>" 
+
+                        C("sourceSearch_scroll")[0].appendChild(Dom)
+                    })
+                    resolve();
+                })
+            })
+        }
+
+
+        pageInit()
+        .then(function(){
+            return MyPromise.all([
+                api.getIndexPageData(area.userId,store.menu_id,store.tag_id)
+                .then(function(res){
+                    return new MyPromise(function(resolve,reject){
+                        headerRender(res.data.menus);
+                        resolve();
+                    })
+                }),
+                search(store.searchCon)
+            ])
+            
+        })
+        .then(
+            function(){
+               
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:2,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'搜索',
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+
+                // 遮罩关闭，绑定按钮
+                C('cover')[0].style.display = "none";
+
+                HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+            }
+        )
+    </script>
+</html>

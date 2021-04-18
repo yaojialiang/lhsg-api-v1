@@ -1,0 +1,32 @@
+/* 
+* @Author: Marte
+* @Date:   2019-06-18 17:43:54
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-03-16 11:08:10
+*/
+body{
+    background: #ffffff;
+    width: 1280px;
+    height: 720px;
+}
+#container{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:1280px;
+    height:720px;
+    overflow: hidden;
+}
+.view{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:1280px;
+    height:720px;
+}
+.hotBtn{
+    border: 4px solid transparent;
+}
+.hotBtn.hoverOn{
+    border: 4px solid #666666;
+}

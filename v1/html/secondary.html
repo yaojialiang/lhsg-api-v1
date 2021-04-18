@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/secondary.css" />
+    </head>
+    <body>
+        <div id="container">
+            <!--#include virtual="headerNav.html" -->
+            
+            <img class="menuTagBg" src="../img/common/left_star.png" height="34" width="83" alt="" />
+
+            <!-- 左侧导航 -->
+            <div class="menuTag">
+                <div class="menuTag_scroll">
+                    
+                </div>
+            </div>
+
+            <img class="menuTagChar" src="" alt="" />
+
+            <!-- 推荐区域 -->
+            <div class="recommendBit">
+                <div class="recommendBit_scroll"> 
+                    
+                </div>
+            </div>
+            
+        </div>
+    </body>
+    <script type="text/javascript">
+        
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| null;
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| null;
+        // 当前栏目id
+        store.menu_id = HCEPG.Func.getQueryString('menu_id') || '';
+        // 当前标签id
+        store.tag_id = HCEPG.Func.getQueryString('tag_id') || '0';
+        
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                headerBtn:{
+                    cols:'auto',
+                    borderDown:'~recommendHeadBitBtn|recommendHeadBitBtn-0',
+                    borderRight:'~navBtn|navBtn-0',
+                },
+                navBtn:{
+                    cols:'auto',
+                    borderLeft:function(){
+                        return '~headerBtn|headerBtn-'+(C('headerBtn').length-1)
+                    },
+                    borderDown:'~recommendHeadBitBtn|recommendHeadBitBtn-0',
+                },
+                menuTagBtn:{
+                    cols:'1',
+                    borderUp:function(){
+                        return 'headerBtn-'+getHeaderBtnIdx();
+                    }, 
+                    borderRight:'recommendHeadBitBtn-0'
+                },
+                recommendHeadBitBtn:{
+                    cols:2,
+                    borderUp:function(){
+                        return 'headerBtn-'+getHeaderBtnIdx();
+                    }, 
+                    borderLeft:function(){
+                        return '~menuTagBtn|menuTagBtn-0';
+                    },
+                    borderDown:function(){
+                        return '~recommendBitBtn|recommendBitBtn-2|recommendBitBtn-1|recommendBitBtn-0';
+                    }
+                },
+                recommendBitBtn:{
+                    cols:5,
+                    borderUp: '~recommendHeadBitBtn|recommendHeadBitBtn-0',
+                    borderLeft:function(){
+                        return '~menuTagBtn|menuTagBtn-0';
+                    },
+                },
+
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                    
+                    if(nextBtnCls == 'recommendHeadBitBtn' || nextBtnCls == 'recommendBitBtn'){
+                        HCEPG.UI.scroll(C('recommendBit')[0],C('recommendBit_scroll')[0],C(nextBtnCls)[nextBtnIdx],'y')
+                    }
+                }
+
+                if(key == '13'){
+                    if(btnCls == 'menuTagBtn'){
+                        store.tag_id = btnDom.getAttribute("tag_id");
+                        C('recommendBit_scroll')[0].style.top = '0px';
+                        
+                        promiseAll.push(
+                            api.getIndexPageData(area.userId,store.menu_id,store.tag_id)
+                            .then(function(res){
+                                return new MyPromise(function(resolve,reject){
+                                    changeTag(res);
+                                    resolve();
+                                })
+                            })
+                        )
+                        
+                    }
+                    else{
+                        defSureRules(btnDom,btnCls,btnIdx)
+                    }
+                    
+                }
+                
+                if(key == '8'){  
+                    if(btnCls == 'menuTagBtn'){
+                        HCEPG.BM.changehover('headerBtn',getHeaderBtnIdx())
+                    }
+                    else if(btnCls == 'recommendHeadBitBtn' || btnCls == 'recommendBitBtn'){
+                        HCEPG.BM.changehover('menuTagBtn',getMenuTagBtnIdx())
+                    }
+                    else{
+                        window.location.href = area.projectUrl + 'html/recommend.html';
+                    }
+                    
+                    
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+        // 切换标签
+        function changeTag(res){
+            C('recommendBit_scroll')[0].innerHTML = '';
+            // 推荐位前两位渲染
+            res.data.contents.slice(0,2).forEach(function(obj,idx){
+                var Dom = document.createElement("div");
+                for(var attr in obj){
+                    Dom.setAttribute(attr,obj[attr]);
+                }
+
+                Dom.className = 'recommendHeadBitBtn recommendHeadBitBtn-'+idx;
+
+                Dom.innerHTML = "<div class='recommendHeadBitBtnFrame default'></div>" 
+                +"<img class='recommendHeadBitBtnPic' src="+obj.image+" alt=''>"
+                +"<div class='recommendHeadBitBtnTit'>"
+                    +"<div class='still default'>"+obj.name+"</div>"
+                    +"<marquee class='move hover'>"+obj.name+"</marquee>"
+                +"</div>"
+                +"<div class='recommendHeadBitBtnHoverFrame hover'></div>";
+                C("recommendBit_scroll")[0].appendChild(Dom)
+            })
+
+            
+        
+
+            // 推荐位剩余位渲染
+            res.data.contents.slice(2).forEach(function(obj,idx){
+                var Dom = document.createElement("div");
+                for(var attr in obj){
+                    Dom.setAttribute(attr,obj[attr]);
+                }
+
+                Dom.className = 'recommendBitBtn recommendBitBtn-'+idx;
+
+                Dom.innerHTML = "<div class='recommendBitBtnFrame default'></div>" 
+                +"<img class='recommendBitBtnPic' src="+obj.image+" alt=''>"
+                +"<div class='recommendBitBtnTit'>"
+                    +"<div class='still default'>"+obj.name+"</div>"
+                    +"<marquee class='move hover'>"+obj.name+"</marquee>"
+                +"</div>"
+                +"<div class='recommendBitBtnHoverFrame hover'></div>";
+                C("recommendBit_scroll")[0].appendChild(Dom)
+            })
+        }
+
+        
+
+        
+
+        pageInit()
+        .then(function(){
+            return api.getIndexPageData(area.userId,store.menu_id,store.tag_id)
+            .then(function(res){
+                return new MyPromise(function(resolve,reject){
+                    headerRender(res.data.menus);
+                    
+                    HCEPG.UI.rect({
+                        box:C("menuTag_scroll")[0],
+                        data:res.data.tags,
+                        cols:1,
+                        child:function(unit,obj,idx){
+                            unit.className = 'menuTagBtn menuTagBtn-'+idx;
+
+                            return obj.name;
+                            
+                        },
+                    });
+
+
+                    changeTag(res);
+                    resolve();
+                })
+            })
+        })
+        .then(
+            function(){
+                headerBtnSel(store.menu_id)
+                
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:1,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'一级栏目'+store.menu_id,
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+                
+                // 遮罩关闭，绑定按钮
+                C('cover')[0].style.display = "none";
+
+                if(store.btnCls && store.btnIdx){
+                    HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+                }
+                else{
+                    HCEPG.BM.callbackRules('','','','','','headerBtn',getHeaderBtnIdx())
+                }
+                
+            }
+        )
+    </script>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="../../js/HCcommon.js"></script>
+        <script type="text/javascript" src="../../js/area.js"></script>
+        <script type="text/javascript" src="../../js/page.js"></script>
+        <script type="text/javascript" src="../../js/api.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <img class="hg hg_1" src="img/pic_1.png" height="683" width="683" alt="" />
+            <img class="hg hg_2" src="img/pic_2.png" height="683" width="683" alt="" />
+            <img class="hg hg_3" src="img/pic_3.png" height="683" width="683" alt="" />
+            <img class="hg hg_4" src="img/pic_4.png" height="683" width="683" alt="" />
+            <img class="hg hg_5" src="img/pic_5.png" height="683" width="683" alt="" />
+
+            <img class="guang" src="img/guang.png" height="119" width="545" alt="" />
+            
+            <img class="wenzi" src="img/wenzi.png" height="264" width="264" alt="" />
+            
+
+            <div class="hotBtn hotBtn-0">
+                <img class="default" src="img/1_non.png" height="85" width="265" alt="" />
+                <img class="hover" src="img/1_sel.png" height="85" width="265" alt="" />
+            </div>
+            
+            <div class="hotBtn hotBtn-1">
+                <img class="default" src="img/2_non.png" height="85" width="265" alt="" />
+                <img class="hover" src="img/2_sel.png" height="85" width="265" alt="" />
+            </div>
+
+            <div class="hotBtn hotBtn-2">
+                <img class="default" src="img/3_non.png" height="85" width="265" alt="" />
+                <img class="hover" src="img/3_sel.png" height="85" width="265" alt="" />
+            </div>
+
+            <div class="hotBtn hotBtn-3">
+                <img class="default" src="img/4_non.png" height="85" width="265" alt="" />
+                <img class="hover" src="img/4_sel.png" height="85" width="265" alt="" />
+            </div>
+
+            <div class="hotBtn hotBtn-4">
+                <img class="default" src="img/5_non.png" height="85" width="265" alt="" />
+                <img class="hover" src="img/5_sel.png" height="85" width="265" alt="" />
+            </div>
+            
+        </div>
+    </body>
+    <script type="text/javascript">
+        
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'hotBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '0';
+        
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                hotBtn:{
+                    cols:'1',
+                },
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    if(nextBtnCls == 'hotBtn'){
+                        HCEPG.UI.showOne('hg',nextBtnIdx)
+
+
+                    }
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                    
+                }
+
+                if(key == '13'){
+                    
+                    var source_id = null;
+                    var album_id = 163;
+                    var playUrl = null;
+
+                    if(btnIdx == '0'){
+                        source_id = '1932';
+                        playUrl = 'http://202.99.114.93/88888891/16/20200611/271241835/271241835.ts';
+                    }
+                    else if(btnIdx == '1'){
+                        source_id = '1558';
+                        playUrl = 'http://202.99.114.93/88888891/16/20200610/271240224/271240224.ts';
+                    }
+                    else if(btnIdx == '2'){
+                        source_id = '208';
+                        playUrl = 'http://202.99.114.93/88888891/16/20200611/271241346/271241346.ts';
+                    }
+                    else if(btnIdx == '3'){
+                        source_id = '1398';
+                        playUrl = 'http://202.99.114.93/88888891/16/20200610/271239420/271239420.ts';
+                    }
+                    else if(btnIdx == '4'){
+                        source_id = '3902';
+                        playUrl = 'http://202.99.114.93/88888891/16/20200611/271243889/271243889.ts';
+                    }
+
+                    if(
+                        HCEPG.STBUtil.getSTBModel().indexOf("IHO3000S")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("E9")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("EC")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("IP")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("B7")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("S65")!=-1
+                        || HCEPG.STBUtil.getSTBModel().indexOf("HG680")!=-1
+                    ){
+                        playUrl = playUrl.replace("http","rtsp");
+                    }
+
+                    // 会员
+                    if(
+                        authInfo.result == '0'
+                        || btnIdx == '0'
+
+                    ){
+                        if(album_id && source_id){
+                            api.addWatchRecord(area.userId,album_id,source_id,0,'')
+                        }
+                        
+                        window.location.href = area.projectUrl + 'html/video.html?video_url='+encodeURIComponent(playUrl)+"&video_ReturnURL="+encodeURIComponent(window.location.href.split('?')[0]+'?'+HCEPG.Func.formatParams(store));
+                    }
+                    // 非会员拉起订购
+                    else{
+                        order(productInfo.contentId,productInfo.serviceId,productInfo.productId,productInfo.UserToken,encodeURIComponent(window.location.href.split('?')[0]+'?'+HCEPG.Func.formatParams(store)))
+                    }
+
+                    
+                    
+                }
+                
+                if(key == '8') {
+                    
+                    window.location.href = area.popStack();
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+
+
+        pageInit()
+        .then(
+            function(){
+                try{
+                    api.addComplaint({
+                        uid:area.userId,
+                        page_type:1,
+                        is_vip:authInfo.result == 0 ? 1 : 2,
+                        visit_page:'千金菜',
+                        current_time:HCEPG.Func.timeFormat(),
+                        carrierId:area.carrierId,
+                    })
+                }
+                catch(e){}
+                
+                HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+
+            }
+        )
+
+    </script>
+</html>

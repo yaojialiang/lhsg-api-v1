@@ -1,0 +1,156 @@
+/* 
+* @Author: Marte
+* @Date:   2019-10-18 09:42:53
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-03-02 11:45:12
+*/
+
+.menuTagBg{
+    position: absolute;
+    left: 130px;
+    top: 155px;
+}
+.deleteAndClearBtn{
+    position: absolute;
+    left: 1128px;
+    top: 132px;
+    background-image:url(../img/common/icon_2.png);
+    background-size:220px 182px;
+    background-position-y: 58px;
+    width: 98px;
+    height: 56px;
+    margin: 0 11px;
+}
+.deleteAndClearBtn.hoverOn{
+    background-position-x: -100px;
+    width: 120px;
+    height: 56px;
+    margin: 0px;
+}
+
+/*左侧导航*/
+.menuTag{
+    position: absolute;
+    left: 82px;
+    top: 197px;
+}
+.menuTag .menuTag_scroll{
+    position:absolute;
+    left:0px;
+    top:0px;
+
+}
+.menuTag .menuTag_scroll .menuTagBtn{
+    width:157px;
+    height:58px;
+    margin:3px 10px 4px 10px;
+    background:url(../img/common/non.png) no-repeat;
+
+    position: relative;
+    font-size: 25px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #71f2ff;
+    line-height: 58px;
+    
+}
+.menuTag .menuTag_scroll .menuTagBtn.hoverOn{
+    width:177px;
+    height:65px;
+    margin:0;
+    background:url(../img/common/sel.png) no-repeat;
+    font-size: 28px;
+    font-family: HYCuYuanJ regular, HYCuYuanJ regular-regular;
+    font-weight: regular;
+    text-align: center;
+    color: #faed5f;
+    line-height: 65px;
+}
+
+/*主体*/
+.recommendBit{
+    position: absolute;
+    left: 260px;
+    top: 190px;
+    width: 1000px;
+    height: 523px;
+    overflow: hidden;
+}
+/*主体滑动栏*/
+.recommendBit .recommendBit_scroll{
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+
+
+/*主体单元*/
+.recommendBit .recommendBit_scroll .recommendBitBtn{
+    width: 297px;
+    height: 180px;
+    position: relative;
+    border: 10px solid transparent;
+    border-radius: 10px;
+    float: left;
+    margin-right: 7px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnPic{
+    width: 296px;
+    height: 162px;
+    border-radius: 6px;
+    position: absolute;
+    left: 7px;
+    top: 7px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn.hoverOn .recommendBitBtnPic{
+    width: 313px;
+    height: 177px;
+    left: -1px;
+    top: -1px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit{
+    position: absolute;
+    left: 6px;
+    top: 139px;
+    width: 297px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    background: url(../img/common/titleBg.png);
+    border-radius: 0 0 6px 6px;
+    color: #ffffff;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn.hoverOn .recommendBitBtnTit{
+    left: -1px;
+    top: 146px;
+    width: 313px;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit .still{
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnTit .hover{
+    width: 100%;
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnFrame{
+    width:310px;
+    height:175px;
+    background-image:url(../img/myhouse/chicun6_non.png);
+}
+.recommendBit .recommendBit_scroll .recommendBitBtn .recommendBitBtnHoverFrame{
+    position:absolute;
+    left: -10px;
+    top: -10px;
+    width:330px;
+    height:195px;
+    background-image:url(../img/myhouse/chicun6_sel.png);
+}
+
+
+.description{
+    position:absolute;
+    left: 310px;
+    top: 150px;
+}

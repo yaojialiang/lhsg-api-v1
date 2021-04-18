@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+        <link rel="stylesheet" type="text/css" href="../css/test.css" />
+    </head>
+    <body>
+        <div id="container">
+            <div class="view">
+                <div class="box">
+                    <!-- <div class="hotBtn">测试环境</div> -->
+                </div>
+                
+            </div>
+            
+        </div>
+    </body>
+    <script type="text/javascript">
+        store.btnCls = HCEPG.Func.getQueryString('btnCls')|| 'hotBtn';
+        store.btnIdx = HCEPG.Func.getQueryString('btnIdx')|| '0';
+
+        HCEPG.BM.init({
+            keyLeftFn:'keyLeft',
+            keyUpFn:'keyUp',
+            keyRightFn:'keyRight',
+            keyDownFn:'keyDown',
+            keyEnterFn:'keyEnter',
+            keyBackFn:'keyBack',
+            moveRules:{
+                hotBtn:{
+                    cols:'1'
+                },
+            },
+            callbackRules:function(key,btnDom,btnCls,btnIdx,nextBtnDom,nextBtnCls,nextBtnIdx){
+                HCEPG.BM.btnClose();
+                var promiseAll = [new MyPromise(function(resolve,reject){resolve()})];
+                // 焦点改变
+                if(nextBtnCls&&nextBtnIdx&&(nextBtnCls!=btnCls || nextBtnIdx!=btnIdx)){
+                    store.btnCls = nextBtnCls;
+                    store.btnIdx = nextBtnIdx;
+                    HCEPG.BM.changehover(nextBtnCls,nextBtnIdx)
+                }
+
+                if(key == '13'){
+                    if(btnCls == 'hotBtn'){
+                        window.location.href = btnDom.getAttribute('url');
+                    }
+                }
+                
+                if(key == '8'){  
+                    window.location.href = 'http://202.99.114.152:24007/v1/guide.html'
+                }  
+                
+                return MyPromise.all(promiseAll)
+                .then(function(){
+                    HCEPG.BM.btnOpen();
+                }) 
+            },
+        })
+
+        var arr = [
+            {
+                name:'测试环境',
+                url:'http://202.99.114.152:24007/v1_test/guide.html',
+            },
+            {
+                name:'四季饮茶',
+                url:'http://202.99.114.152:24007/v1/special/zt20210319/index.html',
+            },
+            {
+                name:'飞咪玩具',
+                url:'http://202.99.114.152:24005/h5/toymall/index.html',
+            },
+            {
+                name:'电竞部落',
+                url:'http://202.99.114.152:24000/h5v2/tribe/index.html',
+            },
+        ]
+        
+        arr.forEach(function(obj,idx){
+            var temp = document.createElement('div');
+            temp.className = 'hotBtn';
+            temp.innerText = obj.name;
+            for(var attr in obj){
+                temp.setAttribute(attr, obj[attr])
+            }
+            C('box')[0].appendChild(temp);
+        })
+        
+
+        HCEPG.BM.callbackRules('','','','','',store.btnCls,store.btnIdx)
+    </script>
+</html>

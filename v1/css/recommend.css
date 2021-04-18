@@ -1,0 +1,343 @@
+/* 
+* @Author: Marte
+* @Date:   2020-01-06 10:11:17
+* @Last Modified by:   Marte
+* @Last Modified time: 2021-03-02 15:06:54
+*/
+
+/*主体*/
+.main{
+    position: absolute;
+    left: 75px;
+    top: 144px;
+    overflow: hidden;
+    width: 1200px;
+    height: 480px;
+    background-color: transparent;
+}
+.right{
+    position: absolute;
+    left: 1235px;
+    top: 320px;
+    display:block;
+}
+.left{
+    position:absolute;
+    left: 20px;
+    top:320px;
+    display:none;
+}
+/*主体滑动栏*/
+.main .main_scroll{
+    position: absolute;
+}
+
+.main .main_scroll .shipinchuang{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+/*主体单元*/
+.main .main_scroll .mainBtn{
+    position:absolute;
+    background-color: transparent;
+
+}
+.main .main_scroll .mainBtn .mainBtnFrame{
+    position:absolute;
+}
+.main .main_scroll .mainBtn .mainBtnFrame.hover{
+    top: -13px;
+    left: -18px;
+}   
+.main .main_scroll .mainBtn .mainBtnFrame.default{
+    top:-3px;
+    left:-3px;
+}
+.main .main_scroll .mainBtn .mainBtnPic{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+.main .main_scroll .mainBtn.hoverOn .mainBtnPic{
+    position:absolute;
+    left: -10px;
+    top: -5px;
+}
+
+/*单元0*/
+.main .main_scroll .mainBtn.mainBtn-0{
+    left: 36px;
+    top: 115px;
+    width: 379px;
+    height: 241px;
+}
+.main .main_scroll .mainBtn.mainBtn-0 .mainBtnPic{
+    width: 383px;
+    height: 243px;
+}
+.main .main_scroll .mainBtn.mainBtn-0.hoverOn .mainBtnPic{
+    width: 396px;
+    height: 256px;
+}
+
+/*单元1*/
+.main .main_scroll .mainBtn.mainBtn-1{
+    left: 455px;
+    top: 22px;
+    width: 220px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-1 .mainBtnPic{
+    height: 366px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-1.hoverOn .mainBtnPic{
+    height: 376px;
+    width: 230px;
+}
+
+
+/*单元2*/
+.main .main_scroll .mainBtn.mainBtn-2{
+    left: 692px;
+    top: 22px;
+    width: 220px;
+    height: 176px;
+}
+.main .main_scroll .mainBtn.mainBtn-2 .mainBtnPic{
+    height: 176px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-2.hoverOn .mainBtnPic{
+    height: 186px;
+    width: 230px;
+}
+
+/*单元3*/
+.main .main_scroll .mainBtn.mainBtn-3{
+    left: 692px;
+    top: 212px;
+    width: 220px;
+    height: 176px;
+}
+.main .main_scroll .mainBtn.mainBtn-3 .mainBtnPic{
+    height: 176px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-3.hoverOn .mainBtnPic{
+    height: 186px;
+    width: 230px;
+}
+
+/*单元4*/
+.main .main_scroll .mainBtn.mainBtn-4{
+    left: 929px;
+    top: 22px;
+    width: 220px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-4 .mainBtnPic{
+    height: 366px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-4.hoverOn .mainBtnPic{
+    height: 376px;
+    width: 230px;
+}
+
+
+/*单元5*/
+.main .main_scroll .mainBtn.mainBtn-5{
+    left: 1220px;
+    top: 22px;
+    width: 452px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-5 .mainBtnPic{
+    width: 434px;
+    height: 363px;
+}
+.main .main_scroll .mainBtn.mainBtn-5.hoverOn .mainBtnPic{
+    width: 444px;
+    height: 373px;
+}
+
+
+/*单元6*/
+.main .main_scroll .mainBtn.mainBtn-6{
+    left: 1670px;
+    top: 22px;
+    width: 220px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-6 .mainBtnPic{
+    height: 366px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-6.hoverOn .mainBtnPic{
+    height: 376px;
+    width: 230px;
+}
+
+/*单元7*/
+.main .main_scroll .mainBtn.mainBtn-7{
+    left: 1902px;
+    top: 22px;
+    width: 220px;
+    height: 176px;
+}
+.main .main_scroll .mainBtn.mainBtn-7.hoverOn{
+    
+}
+.main .main_scroll .mainBtn.mainBtn-7 .mainBtnPic{
+    height: 176px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-7.hoverOn .mainBtnPic{
+    height: 186px;
+    width: 230px;
+}
+
+
+/*单元8*/
+.main .main_scroll .mainBtn.mainBtn-8{
+    left: 1902px;
+    top: 212px;
+    width: 220px;
+    height: 176px;
+}
+.main .main_scroll .mainBtn.mainBtn-8 .mainBtnPic{
+    height: 176px;
+    width: 220px;
+}
+.main .main_scroll .mainBtn.mainBtn-8.hoverOn .mainBtnPic{
+    height: 186px;
+    width: 230px;
+}
+
+
+/*单元9*/
+.main .main_scroll .mainBtn.mainBtn-9{
+    left: 2140px;
+    top: 22px;
+    width: 220px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-9 .mainBtnPic{
+    width: 220px;
+    height: 366px;
+}
+.main .main_scroll .mainBtn.mainBtn-9.hoverOn .mainBtnPic{
+    width: 230px;
+    height: 376px;
+}
+
+
+
+
+/*脚部导航*/
+.footer{
+    position: absolute;
+    left: 78px;
+    top: 535px;
+    overflow: hidden;
+    width: 1180px;
+    height: 209px;
+}
+/*脚部导航滑动栏*/
+.footer .footer_scroll{
+    position:absolute;
+    width: 2200px;
+}
+
+.footer .footer_scroll .footerBtn{
+    float: left;
+    position: relative;
+    left:0px;
+    top:0px;
+    width: 241px;
+    height: 180px;
+    margin-right: 60px;
+    background-size:cover;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+
+}
+.footer .footer_scroll .footerBtn.footerBtn-0{
+    background-image:url(../img/recommend/yangsheng_non.png);
+}
+.footer .footer_scroll .footerBtn.footerBtn-0.hoverOn{
+    background-image:url(../img/recommend/yangsheng_sel.png);
+}
+
+.footer .footer_scroll .footerBtn.footerBtn-1{
+    background-image:url(../img/recommend/yundong_non.png);
+}
+.footer .footer_scroll .footerBtn.footerBtn-1.hoverOn{
+    background-image:url(../img/recommend/yangsheng_sel.png);
+}
+
+.footer .footer_scroll .footerBtn.footerBtn-2{
+    background-image:url(../img/recommend/meishi_non.png);
+}
+.footer .footer_scroll .footerBtn.footerBtn-2.hoverOn{
+    background-image:url(../img/recommend/meishi_sel.png);
+}
+
+.footer .footer_scroll .footerBtn.footerBtn-3{
+    background-image:url(../img/recommend/jiaren_non.png);
+}
+.footer .footer_scroll .footerBtn.footerBtn-3.hoverOn{
+    background-image:url(../img/recommend/jiaren_sel.png);
+}
+
+
+
+.tianjin_exitPage{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1280px;
+    height: 720px;
+    display: none; 
+    background: rgba(0,0,0,0.7);
+}
+.tianjin_exitPage .popup{
+    position: absolute;
+    left: 220px;
+    top: 140px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn{
+    position:absolute;
+    top:490px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn0{
+    background:url(../img/recommend/tianjin_exitPageBtn0.png);
+    background-position: 0 0;
+    width: 163px;
+    height: 73px;
+    left: 346px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn0.hoverOn{
+    background-position: 0 -73px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn1{
+    background:url(../img/recommend/tianjin_exitPageBtn1.png);
+    width:164px;
+    height:74px;
+    left:537px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn1.hoverOn{
+    background-position: 0 -74px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn2{
+    background:url(../img/recommend/tianjin_exitPageBtn2.png);
+    width:217px;
+    height:73px;
+    left:727px;
+}
+.tianjin_exitPage .tianjin_exitPageBtn.tianjin_exitPageBtn2.hoverOn{
+    background-position: 0 -73px;
+}

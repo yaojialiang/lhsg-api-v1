@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#include virtual="head.html" -->
+    </head>
+    <body>
+        <div id="container">
+            
+        </div>
+    </body>
+    <script type="text/javascript">
+
+        pageInit()
+        .then(function(){
+            var userId = area.userId;
+            var ServiceID = HCEPG.Func.getQueryString("ServiceID") || 'null';
+            var ProductID = HCEPG.Func.getQueryString("ProductID") || 'null';
+            var ContentID = HCEPG.Func.getQueryString("ContentID") || 'null';
+            var OrderMode = HCEPG.Func.getQueryString("OrderMode") || '-1';
+            var Description = HCEPG.Func.getQueryString("Description") || 'null';
+            var PurchaseType = HCEPG.Func.getQueryString("PurchaseType") || '-1';
+            var Fee = HCEPG.Func.getQueryString("Fee") || '';
+            var SPID = HCEPG.Func.getQueryString("SPID") || '';
+            var ExpiredTime = HCEPG.Func.getQueryString("ExpiredTime") || '';
+            var AvailableIPTVRewardPoints = HCEPG.Func.getQueryString("AvailableIPTVRewardPoints") || '';
+            var AvailableTeleRewardPoints = HCEPG.Func.getQueryString("AvailableTeleRewardPoints") || '';
+            var AvailableTVVASRewardPoints = HCEPG.Func.getQueryString("AvailableTVVASRewardPoints") || '';
+            var PayValidLen = HCEPG.Func.getQueryString("PayValidLen") || '';
+            var TradesSerialNum = HCEPG.Func.getQueryString("TradesSerialNum") || '';
+            var ActualPayAmount = HCEPG.Func.getQueryString("ActualPayAmount") || '';
+            var SerStartTime = HCEPG.Func.getQueryString("SerStartTime") || '';
+            var SerEndTime = HCEPG.Func.getQueryString("SerEndTime") || '';
+            var Result = HCEPG.Func.getQueryString("Result") || '';
+
+            HCEPG.Func.ajax({
+                url:"http://202.99.114.152:24007/notify",
+                data:{
+                    UserID:userId,
+                    TransactionID:userId+new Date().getTime()+Math.floor(Math.random()*1000),
+                    ProductName:"乐活时光" ,
+                    ServiceID:ServiceID,
+                    ProductID:ProductID,
+                    ContentID:ContentID,
+                    OrderMode:OrderMode,
+                    Description:Description,
+                    PurchaseType:PurchaseType,
+                    Fee:Fee,
+                    SPID:SPID,
+                    ExpiredTime:ExpiredTime,
+                    AvailableIPTVRewardPoints:AvailableIPTVRewardPoints,
+                    AvailableTeleRewardPoints:AvailableTeleRewardPoints,
+                    AvailableTVVASRewardPoints:AvailableTVVASRewardPoints,
+                    PayValidLen:PayValidLen,
+                    TradesSerialNum:TradesSerialNum,
+                    ActualPayAmount:ActualPayAmount,
+                    SerStartTime:SerStartTime,
+                    SerEndTime:SerEndTime,
+                    Result:Result,
+                    dudu_origin:area.origin,
+                },
+                type:"GET",
+                dataType:"json",
+                success:function(res){
+                    if(Result == '0'){
+                        try{
+                            api.addComplaint({
+                                uid:userId,
+                                page_type:5,
+                                is_vip:1,
+                                visit_page:'订购成功',
+                                current_time:HCEPG.Func.timeFormat(),
+                                carrierId:area.carrierId,
+                            })
+                        }
+                        catch(e){}
+                        
+                        if(decodeURIComponent(HCEPG.Func.getQueryString("orderBackUrl")).indexOf('?')!=-1){
+                            window.location.href = decodeURIComponent(HCEPG.Func.getQueryString("orderBackUrl")) + '&Result=0' ;
+                        }
+                        else{
+                            window.location.href = decodeURIComponent(HCEPG.Func.getQueryString("orderBackUrl")) + '?Result=0' ;
+                        }
+                    }
+                    else{
+                        try{
+                            api.addComplaint({
+                                uid:userId,
+                                page_type:6,
+                                is_vip:2,
+                                visit_page:'订购失败',
+                                current_time:HCEPG.Func.timeFormat(),
+                                carrierId:area.carrierId,
+                            })
+                        }
+                        catch(e){}
+
+                        // if(area.carrierId == '201'){
+                        //     window.location.href = 'http://202.99.114.14:15081/integralExchange/recommend.html?userId='+area.userId+'&carrierid=201&specialareatype=2&goodsid=V321300000073&returnurl='+escape(decodeURIComponent(HCEPG.Func.getQueryString("orderBackUrl")));
+                        //     return;
+                        // }
+                        window.location.href = decodeURIComponent(HCEPG.Func.getQueryString("orderBackUrl")) ; 
+                    }
+                    
+                }
+            })
+        })
+        
+
+        
+    </script>
+</html>
